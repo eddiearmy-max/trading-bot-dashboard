@@ -261,7 +261,7 @@ footer code {
       <h1>Trading Bot Dashboard</h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-05-11 10:44:14</span>
+        <span>Generated 2026-05-11 11:44:34</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
@@ -298,7 +298,7 @@ footer code {
       <h2>Risk Limits (global, applied in code outside the bot logic)</h2>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 share per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">$10,000.00</span></div><div class="cap-row"><span class="cap-name">Max daily account loss</span><span class="cap-value">2.00%</span></div></div>
       <h2 style="margin-top:20px">Per-trade target $ (1 share × current price)</h2>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.91</span><span class="cap-value">$3,694.55 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $711.12</span><span class="cap-value">$3,555.60 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $284.19</span><span class="cap-value">$1,420.95 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $496.04</span><span class="cap-value">$2,480.20 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $293.35</span><span class="cap-value">$1,466.75 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$499.98 / trade</span></div></div>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $740.32</span><span class="cap-value">$3,701.60 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $714.44</span><span class="cap-value">$3,572.20 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $286.29</span><span class="cap-value">$1,431.45 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $496.32</span><span class="cap-value">$2,481.60 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $292.42</span><span class="cap-value">$1,462.10 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$499.98 / trade</span></div></div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
         in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
@@ -318,8 +318,8 @@ footer code {
             <span class="tooltip-target" data-tooltip="Watches the average price over the last 10 days vs the last 30 days. When the recent average crosses above the longer one, that&#x27;s a sign prices are heating up — so we BUY. When it crosses below, prices are cooling — so we SELL. Works best when markets are trending clearly; struggles when prices bounce around in a range.">ma_crossover<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:32 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 14:44 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>8</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 16:32 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>9</span></div>
           <div class="reason">Strategy says <strong>HOLD</strong> because the trend still looks healthy, but the entry signal already happened in the past — waiting for a fresh crossover.</div>
         </div>
         
@@ -332,8 +332,8 @@ footer code {
             <span class="tooltip-target" data-tooltip="Hunts for hidden weakness in a trend. If prices keep making new lows but the momentum behind those lows is fading, that often signals the downtrend is about to reverse — so we BUY. The opposite at tops triggers a SELL. Trades against the obvious move, betting the move is exhausted.">rsi_divergence<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:33 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 16:33 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>4</span></div>
           <div class="reason">Strategy says <strong>HOLD</strong> because price and momentum are moving in sync — no hidden weakness to trade off of.</div>
         </div>
         
@@ -346,8 +346,8 @@ footer code {
             <span class="tooltip-target" data-tooltip="Watches for unusual market calm. When prices stop moving much for a while, the next move is often bigger than normal. We BUY when prices break UP out of the quiet zone, SELL when they break DOWN. Captures explosive moves that follow boredom.">bb_squeeze<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:34 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 16:34 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>4</span></div>
           <div class="reason">Strategy says <strong>HOLD</strong> because the market hasn&#x27;t been calm enough recently — waiting for volatility to compress before we look for a breakout.</div>
         </div>
         
@@ -360,9 +360,9 @@ footer code {
             <span class="tooltip-target" data-tooltip="Scores the market&#x27;s health from 0 to 100 by checking four things at once: is the price above its short-term trend, above its long-term trend, gaining momentum, and trading above its midpoint. BUY when the score crosses above 75 (broadly bullish). SELL when it crosses below 25 (broadly bearish).">trend_health<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:35 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
-          <div class="reason">Strategy says <strong>HOLD</strong> because the market&#x27;s health score is 100 — no fresh threshold crossing, just watching.</div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 16:35 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>4</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because the market&#x27;s health score is 75 — no fresh threshold crossing, just watching.</div>
         </div>
         
         <div class="card bot-card signal-HOLD">
@@ -374,9 +374,9 @@ footer code {
             <span class="tooltip-target" data-tooltip="A Claude AI agent watches AAPL hourly during market hours. Each tick it can look at recent price action, today&#x27;s intraday moves, recent news, the account state, and what all 4 rule-based bots are signaling. It then synthesizes everything and decides BUY, SELL, or HOLD on its own — no fixed formula. Same safety guardrails apply as the other bots.">claude_agent<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 8:30–14:30 CDT, hourly</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 15:30 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
-          <div class="reason">Strategy says <strong>HOLD</strong> because Apple has rallied strongly recently and is trading near highs; waiting for a better entry price makes sense given how far it&#x27;s already moved..</div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 16:30 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>4</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because Apple has good news about a new chip partnership with Intel and the stock is strong, but it&#x27;s already rallied significantly and is taking a breather near recent highs—better to wait for a clearer entry opportunity..</div>
         </div>
         
         <div class="card bot-card signal-BUY">
@@ -422,7 +422,7 @@ footer code {
     
     <section>
       <h2>Today's Activity (2026-05-11)</h2>
-      <div class="timeline"><div class="timeline-item"><span class="ts">15:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-BUY">order</span></div><div class="timeline-item"><span class="ts">15:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">15:30:31 UTC</span><span class="bot">AAPL-Claude</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">15:30:31 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:46:13 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-BUY">order</span></div><div class="timeline-item"><span class="ts">14:46:13 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:44:17 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">14:44:17 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:43:27 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">dry_run</span></div><div class="timeline-item"><span class="ts">14:43:27 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:18:44 UTC</span><span class="bot">AAPL-Claude</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">14:18:44 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:13:54 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">dry_run</span></div><div class="timeline-item"><span class="ts">14:13:54 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:23:50 UTC</span><span class="bot">DIA-Trend</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div></div>
+      <div class="timeline"><div class="timeline-item"><span class="ts">16:35:02 UTC</span><span class="bot">DIA-Trend</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">16:35:02 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">16:34:06 UTC</span><span class="bot">IWM-BB</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">16:34:06 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">16:33:06 UTC</span><span class="bot">QQQ-RSI</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">16:33:06 UTC</span><span class="bot">QQQ-RSI</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">16:32:06 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">16:32:06 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">16:30:36 UTC</span><span class="bot">AAPL-Claude</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">16:30:36 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">15:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-BUY">order</span></div><div class="timeline-item"><span class="ts">15:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">15:30:31 UTC</span><span class="bot">AAPL-Claude</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">15:30:31 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">14:46:13 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-BUY">order</span></div></div>
     </section>
     
     
