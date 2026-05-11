@@ -7,114 +7,205 @@
   <title>Trading Bot Dashboard</title>
   <style>
 :root {
-    --bg: #f7f7f8;
+    --bg-start: #fafafe;
+    --bg-end: #f1f1f6;
     --card: #ffffff;
-    --border: #e5e7eb;
-    --text: #111827;
-    --muted: #6b7280;
-    --pos: #059669;
+    --card-border: #e4e4e7;
+    --text: #18181b;
+    --text-2: #3f3f46;
+    --muted: #71717a;
+    --muted-2: #a1a1aa;
+    --pos: #16a34a;
+    --pos-bg: #dcfce7;
     --neg: #dc2626;
-    --accent: #2563eb;
-    --accent-bg: #dbeafe;
+    --neg-bg: #fee2e2;
+    --neutral-bg: #f4f4f5;
+    --accent: #4f46e5;
+    --accent-2: #7c3aed;
+    --accent-bg: #eef2ff;
+    --shadow-sm: 0 1px 2px rgba(24,24,27,0.04), 0 1px 1px rgba(24,24,27,0.02);
+    --shadow-md: 0 4px 6px -1px rgba(24,24,27,0.05), 0 2px 4px -2px rgba(24,24,27,0.04);
+    --shadow-lg: 0 12px 24px -8px rgba(24,24,27,0.10), 0 4px 8px -4px rgba(24,24,27,0.06);
+    --shadow-hero: 0 20px 40px -12px rgba(79,70,229,0.30);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    background-attachment: fixed;
     color: var(--text);
     line-height: 1.5;
-    padding: 24px 20px 60px;
+    padding: 32px 24px 80px;
+    min-height: 100vh;
 }
-.container { max-width: 1100px; margin: 0 auto; }
-header { margin-bottom: 32px; }
-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.container { max-width: 1200px; margin: 0 auto; }
+header { margin-bottom: 40px; }
+header h1 {
+    font-size: 36px; font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 header .meta {
-    color: var(--muted); font-size: 14px;
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    color: var(--muted); font-size: 13px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
 }
+header .meta .sep { color: var(--muted-2); }
 .badge {
-    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 999px;
     background: var(--accent-bg); color: var(--accent);
-    font-size: 12px; font-weight: 600;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
-a { color: var(--accent); text-decoration: none; }
+.badge::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+a { color: var(--accent); text-decoration: none; font-weight: 500; }
 a:hover { text-decoration: underline; }
-section { margin-bottom: 32px; }
+section { margin-bottom: 36px; }
 section h2 {
-    font-size: 16px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.05em; color: var(--muted); margin-bottom: 12px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+}
+section h2::before {
+    content: ""; width: 3px; height: 14px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    border-radius: 2px;
 }
 .grid {
-    display: grid; gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px;
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 18px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
 }
 .metric .label {
-    display: block; font-size: 12px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+    display: block; font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    margin-bottom: 6px;
 }
-.metric .value { display: block; font-size: 22px; font-weight: 600; }
-.metric .sub { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.metric .value { display: block; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
+.metric .sub { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+.metric.hero {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    border: none; color: white;
+    box-shadow: var(--shadow-hero);
+}
+.metric.hero .label { color: rgba(255,255,255,0.75); }
+.metric.hero .value { font-size: 32px; color: white; }
+.metric.hero .sub { color: rgba(255,255,255,0.8); }
 .pos { color: var(--pos); }
 .neg { color: var(--neg); }
 .neutral { color: var(--text); }
+.bot-card {
+    border-left: 4px solid var(--muted-2);
+    position: relative;
+}
+.bot-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+.bot-card.signal-BUY { border-left-color: var(--pos); }
+.bot-card.signal-SELL { border-left-color: var(--neg); }
+.bot-card.signal-HOLD { border-left-color: var(--muted-2); }
 .bot-card .label {
-    font-size: 16px; font-weight: 600; margin-bottom: 4px;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    display: flex; align-items: center; justify-content: space-between;
 }
 .bot-card .style {
-    font-size: 12px; color: var(--muted); margin-bottom: 12px;
+    font-size: 12px; color: var(--muted); margin-bottom: 14px;
+    font-weight: 500;
 }
 .bot-card .meta-row {
     display: flex; justify-content: space-between;
-    font-size: 13px; padding: 4px 0;
+    font-size: 13px; padding: 5px 0;
 }
-.bot-card .meta-row span:first-child { color: var(--muted); }
+.bot-card .meta-row span:first-child {
+    color: var(--muted); font-weight: 500;
+}
+.bot-card .reason {
+    margin-top: 10px; padding: 10px 12px;
+    background: var(--neutral-bg); border-radius: 8px;
+    font-size: 12px; color: var(--text-2); font-style: italic;
+    line-height: 1.4;
+}
 .signal-pill {
-    display: inline-block; padding: 2px 8px; border-radius: 999px;
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
-.signal-HOLD { background: #f3f4f6; color: #6b7280; }
-.signal-BUY  { background: #d1fae5; color: #059669; }
-.signal-SELL { background: #fee2e2; color: #dc2626; }
+.signal-HOLD { background: var(--neutral-bg); color: var(--muted); }
+.signal-BUY  { background: var(--pos-bg); color: var(--pos); }
+.signal-SELL { background: var(--neg-bg); color: var(--neg); }
 table { width: 100%; border-collapse: collapse; }
 th, td {
-    text-align: left; padding: 10px 12px; font-size: 14px;
-    border-bottom: 1px solid var(--border);
+    text-align: left; padding: 12px 14px; font-size: 14px;
+    border-bottom: 1px solid var(--card-border);
 }
 th {
-    font-size: 12px; color: var(--muted); text-transform: uppercase;
-    letter-spacing: 0.05em; font-weight: 600;
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.06em; font-weight: 700; background: var(--neutral-bg);
 }
 tr:last-child td { border-bottom: none; }
-.empty { color: var(--muted); font-style: italic; padding: 20px 0; text-align: center; }
+tr:hover td { background: rgba(244,244,245,0.5); }
+.empty {
+    color: var(--muted); font-style: italic;
+    padding: 32px 0; text-align: center;
+}
 .caps-list { display: grid; gap: 8px; }
 .cap-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 16px; background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px;
+    padding: 12px 16px; background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px; box-shadow: var(--shadow-sm);
 }
-.cap-row .cap-name { font-weight: 500; }
-.cap-row .cap-value { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 600; }
+.cap-row .cap-name { font-weight: 500; color: var(--text-2); }
+.cap-row .cap-value {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-weight: 700; color: var(--accent);
+}
 .chart-wrap {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px; height: 280px;
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 20px; height: 300px;
+    box-shadow: var(--shadow-sm);
 }
 footer {
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+    margin-top: 50px; padding-top: 24px;
+    border-top: 1px solid var(--card-border);
     color: var(--muted); font-size: 12px; text-align: center;
+    line-height: 1.8;
 }
-.timeline { display: grid; gap: 8px; }
+footer code {
+    background: var(--neutral-bg); padding: 2px 6px;
+    border-radius: 4px; font-size: 11px;
+    color: var(--text-2);
+}
+.timeline { display: grid; gap: 6px; }
 .timeline-item {
-    display: grid; grid-template-columns: 80px 100px 1fr auto;
-    gap: 12px; padding: 8px 12px; background: var(--card);
-    border: 1px solid var(--border); border-radius: 8px;
+    display: grid; grid-template-columns: 90px 110px 1fr auto;
+    gap: 14px; padding: 10px 14px; background: var(--card);
+    border: 1px solid var(--card-border); border-radius: 10px;
     font-size: 13px; align-items: center;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.15s;
 }
-.timeline-item .ts { color: var(--muted); font-family: ui-monospace, monospace; }
-.timeline-item .bot { font-weight: 500; }
+.timeline-item:hover { background: var(--neutral-bg); }
+.timeline-item .ts {
+    color: var(--muted); font-family: ui-monospace, monospace;
+    font-size: 12px;
+}
+.timeline-item .bot { font-weight: 600; color: var(--text-2); }
 .tooltip-target {
     position: relative;
     border-bottom: 1px dotted var(--muted);
@@ -127,30 +218,40 @@ footer {
 .tooltip-target:hover::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: calc(100% + 10px);
+    bottom: calc(100% + 12px);
     right: 0;
-    background: #111827;
-    color: #f9fafb;
-    padding: 12px 14px;
-    border-radius: 8px;
+    background: #1e1b4b;
+    color: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 400;
     line-height: 1.5;
-    width: 300px;
+    width: 320px;
     z-index: 10;
     white-space: normal;
     text-align: left;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 40px -12px rgba(30,27,75,0.4);
     pointer-events: none;
 }
 .tooltip-target:hover::before {
     content: "";
     position: absolute;
-    bottom: calc(100% + 4px);
+    bottom: calc(100% + 6px);
     right: 16px;
     border: 6px solid transparent;
-    border-top-color: #111827;
+    border-top-color: #1e1b4b;
     z-index: 11;
+}
+@media (max-width: 640px) {
+    body { padding: 20px 14px 60px; }
+    header h1 { font-size: 28px; }
+    .metric .value { font-size: 22px; }
+    .metric.hero .value { font-size: 28px; }
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
 }
 </style>
 </head>
@@ -159,9 +260,9 @@ footer {
     <header>
       <h1>Trading Bot Dashboard</h1>
       <div class="meta">
-        <span class="badge">PAPER TRADING</span>
-        <span>Generated 2026-05-11 08:10:07</span>
-        <span>·</span>
+        <span class="badge">Paper Trading</span>
+        <span>Generated 2026-05-11 08:26:33</span>
+        <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
     </header>
@@ -169,7 +270,7 @@ footer {
     <section>
       <h2>Account</h2>
       <div class="grid">
-        <div class="card metric">
+        <div class="card metric hero">
           <span class="label">Equity</span>
           <span class="value">$100,000.39</span>
           <span class="sub">Cash: $100,000.39</span>
@@ -208,68 +309,60 @@ footer {
     <section>
       <h2>Active Bots</h2>
       <div class="grid">
-        <div class="card bot-card">
+        <div class="card bot-card signal-HOLD">
           <div class="label">SPY-MA
             <span class="signal-pill signal-HOLD">HOLD</span>
           </div>
           <div class="style">Trend-following · SPY</div>
           <div class="meta-row"><span>Strategy</span>
-            <span class="tooltip-target" data-tooltip="Classic trend-following on 10-day vs 30-day simple moving averages. BUY when fast MA crosses above slow MA (uptrend confirming), SELL when fast crosses below slow. Wins on sustained directional moves, loses on choppy sideways markets.">ma_crossover<span class="info-icon">ⓘ</span></span>
+            <span class="tooltip-target" data-tooltip="Watches the average price over the last 10 days vs the last 30 days. When the recent average crosses above the longer one, that&#x27;s a sign prices are heating up — so we BUY. When it crosses below, prices are cooling — so we SELL. Works best when markets are trending clearly; struggles when prices bounce around in a range.">ma_crossover<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:32 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-11 12:39 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>6</span></div>
-          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
-            Fast above slow but no fresh crossover
-          </div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>7</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because the trend still looks healthy, but the entry signal already happened in the past — waiting for a fresh crossover.</div>
         </div>
         
-        <div class="card bot-card">
+        <div class="card bot-card signal-HOLD">
           <div class="label">QQQ-RSI
             <span class="signal-pill signal-HOLD">HOLD</span>
           </div>
           <div class="style">Mean-reversion · QQQ</div>
           <div class="meta-row"><span>Strategy</span>
-            <span class="tooltip-target" data-tooltip="Counter-trend reversal using 14-period RSI. BUY on bullish divergence (price makes a lower low while RSI makes a higher low, RSI&lt;50). SELL on bearish divergence (price higher high, RSI lower high, RSI&gt;50). Looks for momentum exhaustion at extremes.">rsi_divergence<span class="info-icon">ⓘ</span></span>
+            <span class="tooltip-target" data-tooltip="Hunts for hidden weakness in a trend. If prices keep making new lows but the momentum behind those lows is fading, that often signals the downtrend is about to reverse — so we BUY. The opposite at tops triggers a SELL. Trades against the obvious move, betting the move is exhausted.">rsi_divergence<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:33 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:24 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
-          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
-            No divergence detected
-          </div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because price and momentum are moving in sync — no hidden weakness to trade off of.</div>
         </div>
         
-        <div class="card bot-card">
+        <div class="card bot-card signal-HOLD">
           <div class="label">IWM-BB
             <span class="signal-pill signal-HOLD">HOLD</span>
           </div>
           <div class="style">Volatility regime · IWM</div>
           <div class="meta-row"><span>Strategy</span>
-            <span class="tooltip-target" data-tooltip="Volatility-regime breakout on Bollinger Bands. BUY when price closes above upper band after BB width has been in its lowest 25th percentile for 10 consecutive bars. SELL on the symmetric downward break. Captures explosive moves after periods of low volatility.">bb_squeeze<span class="info-icon">ⓘ</span></span>
+            <span class="tooltip-target" data-tooltip="Watches for unusual market calm. When prices stop moving much for a while, the next move is often bigger than normal. We BUY when prices break UP out of the quiet zone, SELL when they break DOWN. Captures explosive moves that follow boredom.">bb_squeeze<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:34 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:34 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
-          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
-            No squeeze: only 0/10 recent bars below 25th-pct width
-          </div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because the market hasn&#x27;t been calm enough recently — waiting for volatility to compress before we look for a breakout.</div>
         </div>
         
-        <div class="card bot-card">
+        <div class="card bot-card signal-HOLD">
           <div class="label">DIA-Trend
             <span class="signal-pill signal-HOLD">HOLD</span>
           </div>
           <div class="style">Composite · DIA</div>
           <div class="meta-row"><span>Strategy</span>
-            <span class="tooltip-target" data-tooltip="Composite 0–100 score from 4 indicators (each 25 pts): close&gt;50-EMA, close&gt;200-EMA, MACD positive, RSI&gt;50. BUY when score crosses up through 75 (strongly bullish). SELL when it crosses down through 25 (turning bearish). Designed to enter at moments of trend inflection, not while a trend is already mature.">trend_health<span class="info-icon">ⓘ</span></span>
+            <span class="tooltip-target" data-tooltip="Scores the market&#x27;s health from 0 to 100 by checking four things at once: is the price above its short-term trend, above its long-term trend, gaining momentum, and trading above its midpoint. BUY when the score crosses above 75 (broadly bullish). SELL when it crosses below 25 (broadly bearish).">trend_health<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:35 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:34 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
-          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
-            Trend health at 100, no fresh threshold crossing
-          </div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 13:23 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>3</span></div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because the market&#x27;s health score is 100 — no fresh threshold crossing, just watching.</div>
         </div>
         </div>
     </section>
@@ -283,7 +376,7 @@ footer {
     
     <section>
       <h2>Today's Activity (2026-05-11)</h2>
-      <div class="timeline"><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
+      <div class="timeline"><div class="timeline-item"><span class="ts">13:23:50 UTC</span><span class="bot">DIA-Trend</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">13:23:50 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:23:50 UTC</span><span class="bot">IWM-BB</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">13:23:50 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:23:49 UTC</span><span class="bot">QQQ-RSI</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">13:23:49 UTC</span><span class="bot">QQQ-RSI</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:23:48 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">13:23:48 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
     </section>
     
     
@@ -308,23 +401,51 @@ footer {
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
         const data = {"labels": ["04/09", "04/10", "04/11", "04/14", "04/15", "04/16", "04/17", "04/18", "04/21", "04/22", "04/23", "04/24", "04/25", "04/28", "04/29", "04/30", "05/01", "05/02", "05/05", "05/06", "05/07", "05/08", "05/09"], "equity": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100000.0, 100000.0, 100000.39, 100000.39]};
-        new Chart(document.getElementById("equityChart"), {
+        const ctx = document.getElementById("equityChart").getContext("2d");
+        const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+        gradient.addColorStop(0, "rgba(79,70,229,0.25)");
+        gradient.addColorStop(1, "rgba(124,58,237,0.02)");
+        new Chart(ctx, {
           type: "line",
           data: {
             labels: data.labels,
             datasets: [{
               label: "Equity",
               data: data.equity,
-              borderColor: "#2563eb",
-              backgroundColor: "rgba(37,99,235,0.08)",
-              fill: true, tension: 0.25, pointRadius: 2,
+              borderColor: "#4f46e5",
+              backgroundColor: gradient,
+              borderWidth: 2.5,
+              fill: true, tension: 0.3,
+              pointRadius: 0, pointHoverRadius: 5,
+              pointBackgroundColor: "#4f46e5",
+              pointHoverBackgroundColor: "#4f46e5",
+              pointHoverBorderColor: "#ffffff",
+              pointHoverBorderWidth: 2,
             }]
           },
           options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            interaction: { intersect: false, mode: "index" },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: "#1e1b4b",
+                padding: 10, cornerRadius: 8,
+                titleFont: { size: 12 }, bodyFont: { size: 13, weight: "600" },
+                callbacks: {
+                  label: ctx => "$" + ctx.parsed.y.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                }
+              }
+            },
             scales: {
-              y: { ticks: { callback: v => "$" + v.toLocaleString() } }
+              x: { grid: { display: false }, ticks: { color: "#71717a", font: { size: 11 } } },
+              y: {
+                grid: { color: "#e4e4e7", drawBorder: false },
+                ticks: {
+                  color: "#71717a", font: { size: 11 },
+                  callback: v => "$" + v.toLocaleString()
+                }
+              }
             }
           }
         });
