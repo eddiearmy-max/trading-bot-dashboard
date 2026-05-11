@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Trading Bot Dashboard</title>
+  <style>
+:root {
+    --bg: #f7f7f8;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
+    --pos: #059669;
+    --neg: #dc2626;
+    --accent: #2563eb;
+    --accent-bg: #dbeafe;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 24px 20px 60px;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+header { margin-bottom: 32px; }
+header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+header .meta {
+    color: var(--muted); font-size: 14px;
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+}
+.badge {
+    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    background: var(--accent-bg); color: var(--accent);
+    font-size: 12px; font-weight: 600;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+section { margin-bottom: 32px; }
+section h2 {
+    font-size: 16px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--muted); margin-bottom: 12px;
+}
+.grid {
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+}
+.metric .label {
+    display: block; font-size: 12px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+}
+.metric .value { display: block; font-size: 22px; font-weight: 600; }
+.metric .sub { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.pos { color: var(--pos); }
+.neg { color: var(--neg); }
+.neutral { color: var(--text); }
+.bot-card .label {
+    font-size: 16px; font-weight: 600; margin-bottom: 4px;
+}
+.bot-card .style {
+    font-size: 12px; color: var(--muted); margin-bottom: 12px;
+}
+.bot-card .meta-row {
+    display: flex; justify-content: space-between;
+    font-size: 13px; padding: 4px 0;
+}
+.bot-card .meta-row span:first-child { color: var(--muted); }
+.signal-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+}
+.signal-HOLD { background: #f3f4f6; color: #6b7280; }
+.signal-BUY  { background: #d1fae5; color: #059669; }
+.signal-SELL { background: #fee2e2; color: #dc2626; }
+table { width: 100%; border-collapse: collapse; }
+th, td {
+    text-align: left; padding: 10px 12px; font-size: 14px;
+    border-bottom: 1px solid var(--border);
+}
+th {
+    font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.05em; font-weight: 600;
+}
+tr:last-child td { border-bottom: none; }
+.empty { color: var(--muted); font-style: italic; padding: 20px 0; text-align: center; }
+.caps-list { display: grid; gap: 8px; }
+.cap-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.cap-row .cap-name { font-weight: 500; }
+.cap-row .cap-value { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 600; }
+.chart-wrap {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; height: 280px;
+}
+footer {
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 12px; text-align: center;
+}
+.timeline { display: grid; gap: 8px; }
+.timeline-item {
+    display: grid; grid-template-columns: 80px 100px 1fr auto;
+    gap: 12px; padding: 8px 12px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 13px; align-items: center;
+}
+.timeline-item .ts { color: var(--muted); font-family: ui-monospace, monospace; }
+.timeline-item .bot { font-weight: 500; }
+.tooltip-target {
+    position: relative;
+    border-bottom: 1px dotted var(--muted);
+    cursor: help;
+}
+.tooltip-target .info-icon {
+    display: inline-block; margin-left: 4px;
+    color: var(--muted); font-size: 11px;
+}
+.tooltip-target:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    background: #111827;
+    color: #f9fafb;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 300px;
+    z-index: 10;
+    white-space: normal;
+    text-align: left;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    pointer-events: none;
+}
+.tooltip-target:hover::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 4px);
+    right: 16px;
+    border: 6px solid transparent;
+    border-top-color: #111827;
+    z-index: 11;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Trading Bot Dashboard</h1>
+      <div class="meta">
+        <span class="badge">PAPER TRADING</span>
+        <span>Generated 2026-05-11 08:10:07</span>
+        <span>·</span>
+        <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
+      </div>
+    </header>
+    
+    <section>
+      <h2>Account</h2>
+      <div class="grid">
+        <div class="card metric">
+          <span class="label">Equity</span>
+          <span class="value">$100,000.39</span>
+          <span class="sub">Cash: $100,000.39</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Day P&amp;L</span>
+          <span class="value neutral">+$0.00</span>
+          <span class="sub neutral">+0.00%</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Buying Power</span>
+          <span class="value">$200,000.78</span>
+          <span class="sub">2× margin on paper</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Status</span>
+          <span class="value">ACTIVE</span>
+          <span class="sub">Account #PA34J5EZCHYT</span>
+        </div>
+      </div>
+    </section>
+    
+    
+    <section>
+      <h2>Risk Limits (global, applied in code outside the bot logic)</h2>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 share per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">$10,000.00</span></div><div class="cap-row"><span class="cap-name">Max daily account loss</span><span class="cap-value">2.00%</span></div></div>
+      <h2 style="margin-top:20px">Per-trade target $ (1 share × current price)</h2>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $737.54</span><span class="cap-value">$3,687.70 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $711.12</span><span class="cap-value">$3,555.60 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $284.19</span><span class="cap-value">$1,420.95 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $496.04</span><span class="cap-value">$2,480.20 / trade</span></div></div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted)">
+        To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
+        in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
+      </p>
+    </section>
+    
+    
+    <section>
+      <h2>Active Bots</h2>
+      <div class="grid">
+        <div class="card bot-card">
+          <div class="label">SPY-MA
+            <span class="signal-pill signal-HOLD">HOLD</span>
+          </div>
+          <div class="style">Trend-following · SPY</div>
+          <div class="meta-row"><span>Strategy</span>
+            <span class="tooltip-target" data-tooltip="Classic trend-following on 10-day vs 30-day simple moving averages. BUY when fast MA crosses above slow MA (uptrend confirming), SELL when fast crosses below slow. Wins on sustained directional moves, loses on choppy sideways markets.">ma_crossover<span class="info-icon">ⓘ</span></span>
+          </div>
+          <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:32 CDT</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-11 12:39 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>6</span></div>
+          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
+            Fast above slow but no fresh crossover
+          </div>
+        </div>
+        
+        <div class="card bot-card">
+          <div class="label">QQQ-RSI
+            <span class="signal-pill signal-HOLD">HOLD</span>
+          </div>
+          <div class="style">Mean-reversion · QQQ</div>
+          <div class="meta-row"><span>Strategy</span>
+            <span class="tooltip-target" data-tooltip="Counter-trend reversal using 14-period RSI. BUY on bullish divergence (price makes a lower low while RSI makes a higher low, RSI&lt;50). SELL on bearish divergence (price higher high, RSI lower high, RSI&gt;50). Looks for momentum exhaustion at extremes.">rsi_divergence<span class="info-icon">ⓘ</span></span>
+          </div>
+          <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:33 CDT</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:24 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
+          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
+            No divergence detected
+          </div>
+        </div>
+        
+        <div class="card bot-card">
+          <div class="label">IWM-BB
+            <span class="signal-pill signal-HOLD">HOLD</span>
+          </div>
+          <div class="style">Volatility regime · IWM</div>
+          <div class="meta-row"><span>Strategy</span>
+            <span class="tooltip-target" data-tooltip="Volatility-regime breakout on Bollinger Bands. BUY when price closes above upper band after BB width has been in its lowest 25th percentile for 10 consecutive bars. SELL on the symmetric downward break. Captures explosive moves after periods of low volatility.">bb_squeeze<span class="info-icon">ⓘ</span></span>
+          </div>
+          <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:34 CDT</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:34 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
+          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
+            No squeeze: only 0/10 recent bars below 25th-pct width
+          </div>
+        </div>
+        
+        <div class="card bot-card">
+          <div class="label">DIA-Trend
+            <span class="signal-pill signal-HOLD">HOLD</span>
+          </div>
+          <div class="style">Composite · DIA</div>
+          <div class="meta-row"><span>Strategy</span>
+            <span class="tooltip-target" data-tooltip="Composite 0–100 score from 4 indicators (each 25 pts): close&gt;50-EMA, close&gt;200-EMA, MACD positive, RSI&gt;50. BUY when score crosses up through 75 (strongly bullish). SELL when it crosses down through 25 (turning bearish). Designed to enter at moments of trend inflection, not while a trend is already mature.">trend_health<span class="info-icon">ⓘ</span></span>
+          </div>
+          <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:35 CDT</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-09 21:34 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
+          <div class="meta-row" style="margin-top:6px;font-style:italic;color:var(--muted)">
+            Trend health at 100, no fresh threshold crossing
+          </div>
+        </div>
+        </div>
+    </section>
+    
+    
+        <section>
+          <h2>Current Positions</h2>
+          <div class="card"><p class="empty">No open positions.</p></div>
+        </section>
+        
+    
+    <section>
+      <h2>Today's Activity (2026-05-11)</h2>
+      <div class="timeline"><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">12:39:43 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
+    </section>
+    
+    
+    <section>
+      <h2>Historical Performance (last 30 days)</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:12px">
+        <div class="card metric">
+          <span class="label">Base value</span>
+          <span class="value">$100,000.00</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Current equity</span>
+          <span class="value">$100,000.39</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Total P&amp;L</span>
+          <span class="value pos">+$0.39</span>
+          <span class="sub pos">+0.00%</span>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const data = {"labels": ["04/09", "04/10", "04/11", "04/14", "04/15", "04/16", "04/17", "04/18", "04/21", "04/22", "04/23", "04/24", "04/25", "04/28", "04/29", "04/30", "05/01", "05/02", "05/05", "05/06", "05/07", "05/08", "05/09"], "equity": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100000.0, 100000.0, 100000.39, 100000.39]};
+        new Chart(document.getElementById("equityChart"), {
+          type: "line",
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: "Equity",
+              data: data.equity,
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37,99,235,0.08)",
+              fill: true, tension: 0.25, pointRadius: 2,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { ticks: { callback: v => "$" + v.toLocaleString() } }
+            }
+          }
+        });
+      </script>
+    </section>
+    
+    
+    <section>
+      <h2>Recent Orders</h2>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr>
+            <th>Submitted</th><th>Symbol</th><th>Side</th>
+            <th>Qty</th><th>Fill Price</th><th>Status</th>
+          </tr></thead>
+          <tbody>
+        <tr>
+          <td>2026-05-07 19:50</td>
+          <td><strong>SPY</strong></td>
+          <td>SELL</td>
+          <td>1</td>
+          <td>$731.71</td>
+          <td>FILLED</td>
+        </tr>
+        
+        <tr>
+          <td>2026-05-07 19:50</td>
+          <td><strong>SPY</strong></td>
+          <td>BUY</td>
+          <td>1</td>
+          <td>$731.50</td>
+          <td>FILLED</td>
+        </tr>
+        
+        <tr>
+          <td>2026-05-07 19:49</td>
+          <td><strong>SPY</strong></td>
+          <td>SELL</td>
+          <td>1</td>
+          <td>$731.27</td>
+          <td>FILLED</td>
+        </tr>
+        
+        <tr>
+          <td>2026-05-07 19:42</td>
+          <td><strong>SPY</strong></td>
+          <td>BUY</td>
+          <td>1</td>
+          <td>$731.08</td>
+          <td>FILLED</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <footer>
+      <p>Paper trading account · No real money at stake</p>
+      <p>Source: <a href="https://github.com/eddiearmy-max/trading-bot" target="_blank">https://github.com/eddiearmy-max/trading-bot</a></p>
+      <p>Regenerate this view: <code>python dashboard.py</code></p>
+    </footer>
+  </div>
+</body>
+</html>
