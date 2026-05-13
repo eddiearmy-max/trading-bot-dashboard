@@ -68,16 +68,50 @@ header .meta .sep { color: var(--muted-2); }
 }
 a { color: var(--accent); text-decoration: none; font-weight: 500; }
 a:hover { text-decoration: underline; }
-section { margin-bottom: 36px; }
-section h2 {
-    font-size: 12px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px;
-    display: flex; align-items: center; gap: 10px;
+details.section { margin-bottom: 36px; }
+details.section > summary {
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    margin-bottom: 14px;
+    padding: 4px 0;
+    border-radius: 6px;
+    transition: background 0.15s;
 }
-section h2::before {
+details.section > summary:hover { background: rgba(79,70,229,0.04); }
+details.section > summary::-webkit-details-marker { display: none; }
+details.section > summary h2 {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+    margin: 0;
+}
+details.section > summary h2::before {
     content: ""; width: 3px; height: 14px;
     background: linear-gradient(180deg, var(--accent), var(--accent-2));
     border-radius: 2px;
+}
+details.section > summary h2::after {
+    content: "▾"; margin-left: auto;
+    color: var(--muted); font-size: 11px;
+    transition: transform 0.25s ease;
+}
+details.section:not([open]) > summary h2::after { transform: rotate(-90deg); }
+details.section[open] > summary h2 { color: var(--text-2); }
+.subhead {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--muted);
+    margin: 22px 0 12px;
+}
+.live-dot {
+    display: inline-block; width: 10px; height: 10px;
+    margin-left: 14px; vertical-align: middle;
+    border-radius: 50%; background: var(--pos);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(22,163,74,0); }
 }
 .grid {
     display: grid; gap: 14px;
@@ -139,7 +173,12 @@ section h2::before {
     background: var(--neutral-bg); border-radius: 8px;
     font-size: 12px; color: var(--text-2); font-style: italic;
     line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
+.bot-card * { min-width: 0; }
+.bot-card .meta-row { overflow-wrap: anywhere; gap: 8px; }
+.bot-card .meta-row span:last-child { text-align: right; }
 .signal-pill {
     display: inline-block; padding: 4px 12px; border-radius: 999px;
     font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
@@ -258,17 +297,17 @@ footer code {
 <body>
   <div class="container">
     <header>
-      <h1>Trading Bot Dashboard</h1>
+      <h1>Trading Bot Dashboard<span class="live-dot" aria-label="live" title="System is live"></span></h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-05-13 07:09:33</span>
+        <span>Generated 2026-05-13 07:21:43</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
     </header>
     
-    <section>
-      <h2>Account</h2>
+    <details class="section" open>
+      <summary><h2>Account</h2></summary>
       <div class="grid">
         <div class="card metric hero">
           <span class="label">Equity</span>
@@ -291,23 +330,23 @@ footer code {
           <span class="sub">Account #PA34J5EZCHYT</span>
         </div>
       </div>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Risk Limits (global, applied in code outside the bot logic)</h2>
+    <details class="section" open>
+      <summary><h2>Risk Limits</h2></summary>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
-      <h2 style="margin-top:20px">Per-trade target $ (1 share × current price)</h2>
+      <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.19</span><span class="cap-value">$3,690.95 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $707.22</span><span class="cap-value">$3,536.10 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $282.57</span><span class="cap-value">$1,412.85 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $497.88</span><span class="cap-value">$2,489.40 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$500.00 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div></div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
         in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
       </p>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Bot Allocations</h2>
+    <details class="section" open>
+      <summary><h2>Bot Allocations</h2></summary>
       <div class="card" style="padding:0;overflow:hidden">
         <table>
           <thead><tr>
@@ -368,11 +407,11 @@ footer code {
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         Updated 2026-05-13 11:33 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
       </p>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Active Bots</h2>
+    <details class="section" open>
+      <summary><h2>Active Bots</h2></summary>
       <div class="grid">
         <div class="card bot-card signal-BUY">
           <div class="label">SPY-MA
@@ -486,11 +525,11 @@ footer code {
           <div class="reason">Strategy says <strong>OPTION_ORDERS</strong> because opening a new weekly short put to collect premium — strike $290, expires in 5 days.</div>
         </div>
         </div>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Current Positions</h2>
+    <details class="section" open>
+      <summary><h2>Current Positions</h2></summary>
       <div class="card" style="padding:0;overflow:hidden">
         <table>
           <thead><tr>
@@ -510,17 +549,17 @@ footer code {
         </tbody>
         </table>
       </div>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Today's Activity (2026-05-13)</h2>
+    <details class="section" open>
+      <summary><h2>Today's Activity (2026-05-13)</h2></summary>
       <div class="timeline"><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>options pre-check blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Historical Performance (last 30 days)</h2>
+    <details class="section" open>
+      <summary><h2>Historical Performance (last 30 days)</h2></summary>
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:12px">
         <div class="card metric">
           <span class="label">Base value</span>
@@ -589,11 +628,11 @@ footer code {
           }
         });
       </script>
-    </section>
+    </details>
     
     
-    <section>
-      <h2>Recent Orders</h2>
+    <details class="section" open>
+      <summary><h2>Recent Orders</h2></summary>
       <div class="card" style="padding:0;overflow:hidden">
         <table>
           <thead><tr>
@@ -675,7 +714,7 @@ footer code {
         </tbody>
         </table>
       </div>
-    </section>
+    </details>
     
     <footer>
       <p>Paper trading account · No real money at stake</p>
@@ -683,5 +722,21 @@ footer code {
       <p>Regenerate this view: <code>python dashboard.py</code></p>
     </footer>
   </div>
+  <script>
+    // Persist collapsed/expanded state of each section across reloads.
+    (function () {
+      document.querySelectorAll("details.section").forEach(function (d) {
+        var title = d.querySelector("summary h2");
+        if (!title) return;
+        var key = "section:" + title.textContent.trim();
+        var stored = localStorage.getItem(key);
+        if (stored === "closed") d.removeAttribute("open");
+        if (stored === "open") d.setAttribute("open", "");
+        d.addEventListener("toggle", function () {
+          localStorage.setItem(key, d.open ? "open" : "closed");
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
