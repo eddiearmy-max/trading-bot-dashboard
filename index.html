@@ -314,7 +314,7 @@ footer code {
       <h1>Trading Bot Dashboard<span class="live-dot" aria-label="live" title="System is live"></span></h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-05-13 07:39:06</span>
+        <span>Generated 2026-05-13 08:37:03</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
@@ -325,17 +325,17 @@ footer code {
       <div class="grid">
         <div class="card metric hero">
           <span class="label">Equity</span>
-          <span class="value">$100,000.38</span>
-          <span class="sub">Cash: $99,500.38</span>
+          <span class="value">$99,981.34</span>
+          <span class="sub">Cash: $99,462.34</span>
         </div>
         <div class="card metric">
           <span class="label">Day P&amp;L</span>
-          <span class="value pos">+$0.05</span>
-          <span class="sub pos">+0.00%</span>
+          <span class="value neg">−$18.99</span>
+          <span class="sub neg">-0.02%</span>
         </div>
         <div class="card metric">
           <span class="label">Buying Power</span>
-          <span class="value">$199,500.76</span>
+          <span class="value">$141,124.68</span>
           <span class="sub">2× margin on paper</span>
         </div>
         <div class="card metric">
@@ -361,7 +361,7 @@ footer code {
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 9:32 CDT</span></div>
           <div class="meta-row"><span>Last run</span><span>2026-05-13 11:33 UTC</span></div>
           <div class="meta-row"><span>Total ticks logged</span><span>10</span></div>
-          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="pos">+$0.40</span></span></div>
+          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="neutral">+$0.00</span></span></div>
           <div class="meta-row"><span>Position cap</span><span>$20,000.00 · #1</span></div>
           <div class="reason">FORCED to BUY (strategy said HOLD: Fast above slow but no fresh crossover)</div>
         </div>
@@ -423,11 +423,11 @@ footer code {
             <span class="tooltip-target" data-tooltip="A Claude AI agent watches AAPL hourly during market hours. Each tick it can look at recent price action, today&#x27;s intraday moves, recent news, the account state, and what all 4 rule-based bots are signaling. It then synthesizes everything and decides BUY, SELL, or HOLD on its own — no fixed formula. Same safety guardrails apply as the other bots.">claude_agent<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 8:30–14:30 CDT, hourly</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-12 19:30 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>14</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-13 13:30 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>15</span></div>
           <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="neutral">+$0.00</span></span></div>
           <div class="meta-row"><span>Position cap</span><span>$5,000.00 · #5</span></div>
-          <div class="reason">Strategy says <strong>HOLD</strong> because Apple has run up strongly to near-term highs and tech stocks are showing overbought conditions, making this a risky time to start a new position..</div>
+          <div class="reason">Strategy says <strong>HOLD</strong> because Apple has rallied too far too fast and is now near all-time highs with signs the tech sector is overextended, so it&#x27;s better to wait for a pullback before buying..</div>
         </div>
         
         <div class="card bot-card signal-BUY">
@@ -439,11 +439,11 @@ footer code {
             <span class="tooltip-target" data-tooltip="A proof-of-life heartbeat — not a real strategy. Every trading day it buys 2 shares of STRC at the open and sells 1 share at the close, regardless of price, news, or any signal. When the other bots are all in a holding pattern (most days), this one still trades, so you can see at a glance that the system is alive and the pipes are flowing.">strc_control<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 8:32 + 14:55 CDT</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-13 11:33 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>7</span></div>
-          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="pos">+$0.05</span></span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-13 13:32 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>8</span></div>
+          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="neutral">+$0.00</span></span></div>
           <div class="meta-row"><span>Position cap</span><span>$2,500.00 · fixed</span></div>
-          <div class="reason">FORCED to BUY (strategy said BUY: Morning fire at 07:33 ET: heartbeat BUY 2 STRC (proof-of-life, ignores price/signals))</div>
+          <div class="reason">Strategy says <strong>BUY</strong> because heartbeat bot bought at the open — same routine every trading day, regardless of price or news.</div>
         </div>
         
         <div class="card bot-card signal-OPTION_ORDERS">
@@ -455,11 +455,11 @@ footer code {
             <span class="tooltip-target" data-tooltip="An options bot. Each week it sells a short-dated &#x27;put&#x27; option on Apple — someone pays us a premium for the right to sell us Apple shares at a set price. We pocket the premium. To protect against a big drop in Apple, we also hold a longer-dated put as insurance for ourselves. We close early if we&#x27;ve already captured 50% of the premium, or defensively if account losses approach 2%.">moneypress<span class="info-icon">ⓘ</span></span>
           </div>
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 8:36 CDT, hourly</span></div>
-          <div class="meta-row"><span>Last run</span><span>2026-05-13 11:54 UTC</span></div>
-          <div class="meta-row"><span>Total ticks logged</span><span>1</span></div>
+          <div class="meta-row"><span>Last run</span><span>2026-05-13 13:36 UTC</span></div>
+          <div class="meta-row"><span>Total ticks logged</span><span>2</span></div>
           <div class="meta-row"><span>Rolling P&amp;L</span><span>—</span></div>
           <div class="meta-row"><span>Position cap</span><span>— · fixed</span></div>
-          <div class="reason">Strategy says <strong>OPTION_ORDERS</strong> because opening a new weekly short put to collect premium — strike $290, expires in 5 days.</div>
+          <div class="reason">Strategy says <strong>OPTION_ORDERS</strong> because opening a new weekly short put to collect premium — strike $292, expires in 5 days.</div>
         </div>
         </div>
     </details>
@@ -471,14 +471,14 @@ footer code {
         <table>
           <thead><tr>
             <th>Rank</th><th>Bot</th><th>Symbol</th>
-            <th>P&amp;L (7d)</th><th>Position cap</th>
+            <th>P&amp;L (5d)</th><th>Position cap</th>
           </tr></thead>
           <tbody>
         <tr>
           <td><strong>#1</strong></td>
           <td>SPY-MA</td>
           <td>SPY</td>
-          <td class="pos">+$0.40</td>
+          <td class="neutral">+$0.00</td>
           <td>$20,000.00</td>
         </tr>
         
@@ -518,14 +518,14 @@ footer code {
           <td><strong>fixed</strong></td>
           <td>STRC-Heartbeat</td>
           <td>STRC</td>
-          <td class="pos">+$0.05</td>
+          <td class="neutral">+$0.00</td>
           <td>$2,500.00</td>
         </tr>
         </tbody>
         </table>
       </div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
-        Updated 2026-05-13 11:33 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
+        Updated 2026-05-13 13:20 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
       </p>
     </details>
     
@@ -540,13 +540,23 @@ footer code {
           </tr></thead>
           <tbody>
         <tr>
+          <td><strong>AAPL260518P00292500</strong></td>
+          <td>-1</td>
+          <td>$1.62</td>
+          <td>$1.81</td>
+          <td>$-181.00</td>
+          <td class="neg">−$19.00
+            (-11.73%)</td>
+        </tr>
+        
+        <tr>
           <td><strong>STRC</strong></td>
-          <td>5</td>
+          <td>7</td>
           <td>$100.00</td>
           <td>$100.00</td>
-          <td>$500.00</td>
-          <td class="neutral">+$0.00
-            (+0.00%)</td>
+          <td>$700.00</td>
+          <td class="neg">−$0.02
+            (-0.00%)</td>
         </tr>
         </tbody>
         </table>
@@ -556,7 +566,7 @@ footer code {
     
     <details class="section">
       <summary><h2>Today's Activity (2026-05-13)</h2></summary>
-      <div class="timeline"><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>options pre-check blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
+      <div class="timeline"><div class="timeline-item"><span class="ts">13:36:07 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">option_orders</span></div><div class="timeline-item"><span class="ts">13:36:07 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-BUY">order</span></div><div class="timeline-item"><span class="ts">13:32:06 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">13:30:42 UTC</span><span class="bot">AAPL-Claude</span><span>strategy says HOLD</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">13:30:42 UTC</span><span class="bot">AAPL-Claude</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>options pre-check blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div></div>
     </details>
     
     
@@ -643,6 +653,24 @@ footer code {
           </tr></thead>
           <tbody>
         <tr>
+          <td>2026-05-13 13:36</td>
+          <td><strong>AAPL260518P00292500</strong></td>
+          <td>SELL</td>
+          <td>1</td>
+          <td>$1.62</td>
+          <td>FILLED</td>
+        </tr>
+        
+        <tr>
+          <td>2026-05-13 13:32</td>
+          <td><strong>STRC</strong></td>
+          <td>BUY</td>
+          <td>2</td>
+          <td>$100.01</td>
+          <td>FILLED</td>
+        </tr>
+        
+        <tr>
           <td>2026-05-12 19:55</td>
           <td><strong>STRC</strong></td>
           <td>SELL</td>
@@ -723,7 +751,7 @@ footer code {
       <summary><h2>Risk Limits</h2></summary>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
       <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.19</span><span class="cap-value">$3,690.95 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $707.22</span><span class="cap-value">$3,536.10 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $282.57</span><span class="cap-value">$1,412.85 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $497.88</span><span class="cap-value">$2,489.40 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$500.00 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div></div>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.19</span><span class="cap-value">$3,690.95 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $707.22</span><span class="cap-value">$3,536.10 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $282.57</span><span class="cap-value">$1,412.85 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $497.88</span><span class="cap-value">$2,489.40 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $294.72</span><span class="cap-value">$1,473.60 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$500.00 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $294.72</span><span class="cap-value">$1,473.60 / trade</span></div></div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
         in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
