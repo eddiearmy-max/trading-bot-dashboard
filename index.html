@@ -152,6 +152,7 @@ details.section[open] > summary h2 { color: var(--text-2); }
 .bot-card.signal-BUY { border-left-color: var(--pos); }
 .bot-card.signal-SELL { border-left-color: var(--neg); }
 .bot-card.signal-HOLD { border-left-color: var(--muted-2); }
+.bot-card.signal-OPTION_ORDERS { border-left-color: var(--accent); }
 .bot-card .label {
     font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
     margin-bottom: 4px;
@@ -173,12 +174,25 @@ details.section[open] > summary h2 { color: var(--text-2); }
     background: var(--neutral-bg); border-radius: 8px;
     font-size: 12px; color: var(--text-2); font-style: italic;
     line-height: 1.4;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    overflow-wrap: break-word;
 }
-.bot-card * { min-width: 0; }
-.bot-card .meta-row { overflow-wrap: anywhere; gap: 8px; }
-.bot-card .meta-row span:last-child { text-align: right; }
+.bot-card .meta-row {
+    gap: 10px;
+    align-items: baseline;
+}
+.bot-card .meta-row span:first-child {
+    flex-shrink: 0;
+}
+.bot-card .meta-row span:last-child {
+    text-align: right;
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+.bot-card .label {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.signal-OPTION_ORDERS { background: var(--accent-bg); color: var(--accent); }
 .signal-pill {
     display: inline-block; padding: 4px 12px; border-radius: 999px;
     font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
@@ -300,115 +314,11 @@ footer code {
       <h1>Trading Bot Dashboard<span class="live-dot" aria-label="live" title="System is live"></span></h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-05-13 07:21:43</span>
+        <span>Generated 2026-05-13 07:30:56</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
     </header>
-    
-    <details class="section" open>
-      <summary><h2>Account</h2></summary>
-      <div class="grid">
-        <div class="card metric hero">
-          <span class="label">Equity</span>
-          <span class="value">$100,000.38</span>
-          <span class="sub">Cash: $99,500.38</span>
-        </div>
-        <div class="card metric">
-          <span class="label">Day P&amp;L</span>
-          <span class="value pos">+$0.05</span>
-          <span class="sub pos">+0.00%</span>
-        </div>
-        <div class="card metric">
-          <span class="label">Buying Power</span>
-          <span class="value">$199,500.76</span>
-          <span class="sub">2× margin on paper</span>
-        </div>
-        <div class="card metric">
-          <span class="label">Status</span>
-          <span class="value">ACTIVE</span>
-          <span class="sub">Account #PA34J5EZCHYT</span>
-        </div>
-      </div>
-    </details>
-    
-    
-    <details class="section" open>
-      <summary><h2>Risk Limits</h2></summary>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
-      <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.19</span><span class="cap-value">$3,690.95 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $707.22</span><span class="cap-value">$3,536.10 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $282.57</span><span class="cap-value">$1,412.85 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $497.88</span><span class="cap-value">$2,489.40 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$500.00 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div></div>
-      <p style="margin-top:8px;font-size:12px;color:var(--muted)">
-        To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
-        in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
-      </p>
-    </details>
-    
-    
-    <details class="section" open>
-      <summary><h2>Bot Allocations</h2></summary>
-      <div class="card" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr>
-            <th>Rank</th><th>Bot</th><th>Symbol</th>
-            <th>P&amp;L (7d)</th><th>Position cap</th>
-          </tr></thead>
-          <tbody>
-        <tr>
-          <td><strong>#1</strong></td>
-          <td>SPY-MA</td>
-          <td>SPY</td>
-          <td class="pos">+$0.40</td>
-          <td>$20,000.00</td>
-        </tr>
-        
-        <tr>
-          <td><strong>#2</strong></td>
-          <td>QQQ-RSI</td>
-          <td>QQQ</td>
-          <td class="neutral">+$0.00</td>
-          <td>$15,000.00</td>
-        </tr>
-        
-        <tr>
-          <td><strong>#3</strong></td>
-          <td>IWM-BB</td>
-          <td>IWM</td>
-          <td class="neutral">+$0.00</td>
-          <td>$10,000.00</td>
-        </tr>
-        
-        <tr>
-          <td><strong>#4</strong></td>
-          <td>DIA-Trend</td>
-          <td>DIA</td>
-          <td class="neutral">+$0.00</td>
-          <td>$7,500.00</td>
-        </tr>
-        
-        <tr>
-          <td><strong>#5</strong></td>
-          <td>AAPL-Claude</td>
-          <td>AAPL</td>
-          <td class="neutral">+$0.00</td>
-          <td>$5,000.00</td>
-        </tr>
-        
-        <tr>
-          <td><strong>fixed</strong></td>
-          <td>STRC-Heartbeat</td>
-          <td>STRC</td>
-          <td class="pos">+$0.05</td>
-          <td>$2,500.00</td>
-        </tr>
-        </tbody>
-        </table>
-      </div>
-      <p style="margin-top:8px;font-size:12px;color:var(--muted)">
-        Updated 2026-05-13 11:33 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
-      </p>
-    </details>
-    
     
     <details class="section" open>
       <summary><h2>Active Bots</h2></summary>
@@ -511,7 +421,7 @@ footer code {
         
         <div class="card bot-card signal-OPTION_ORDERS">
           <div class="label">AAPL-Moneypress
-            <span class="signal-pill signal-OPTION_ORDERS">OPTION_ORDERS</span>
+            <span class="signal-pill signal-OPTION_ORDERS">OPTIONS</span>
           </div>
           <div class="style">Options (premium-selling) · AAPL</div>
           <div class="meta-row"><span>Strategy</span>
@@ -529,6 +439,98 @@ footer code {
     
     
     <details class="section" open>
+      <summary><h2>Bot Allocations</h2></summary>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr>
+            <th>Rank</th><th>Bot</th><th>Symbol</th>
+            <th>P&amp;L (7d)</th><th>Position cap</th>
+          </tr></thead>
+          <tbody>
+        <tr>
+          <td><strong>#1</strong></td>
+          <td>SPY-MA</td>
+          <td>SPY</td>
+          <td class="pos">+$0.40</td>
+          <td>$20,000.00</td>
+        </tr>
+        
+        <tr>
+          <td><strong>#2</strong></td>
+          <td>QQQ-RSI</td>
+          <td>QQQ</td>
+          <td class="neutral">+$0.00</td>
+          <td>$15,000.00</td>
+        </tr>
+        
+        <tr>
+          <td><strong>#3</strong></td>
+          <td>IWM-BB</td>
+          <td>IWM</td>
+          <td class="neutral">+$0.00</td>
+          <td>$10,000.00</td>
+        </tr>
+        
+        <tr>
+          <td><strong>#4</strong></td>
+          <td>DIA-Trend</td>
+          <td>DIA</td>
+          <td class="neutral">+$0.00</td>
+          <td>$7,500.00</td>
+        </tr>
+        
+        <tr>
+          <td><strong>#5</strong></td>
+          <td>AAPL-Claude</td>
+          <td>AAPL</td>
+          <td class="neutral">+$0.00</td>
+          <td>$5,000.00</td>
+        </tr>
+        
+        <tr>
+          <td><strong>fixed</strong></td>
+          <td>STRC-Heartbeat</td>
+          <td>STRC</td>
+          <td class="pos">+$0.05</td>
+          <td>$2,500.00</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted)">
+        Updated 2026-05-13 11:33 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
+      </p>
+    </details>
+    
+    
+    <details class="section">
+      <summary><h2>Account</h2></summary>
+      <div class="grid">
+        <div class="card metric hero">
+          <span class="label">Equity</span>
+          <span class="value">$100,000.38</span>
+          <span class="sub">Cash: $99,500.38</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Day P&amp;L</span>
+          <span class="value pos">+$0.05</span>
+          <span class="sub pos">+0.00%</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Buying Power</span>
+          <span class="value">$199,500.76</span>
+          <span class="sub">2× margin on paper</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Status</span>
+          <span class="value">ACTIVE</span>
+          <span class="sub">Account #PA34J5EZCHYT</span>
+        </div>
+      </div>
+    </details>
+    
+    
+    <details class="section">
       <summary><h2>Current Positions</h2></summary>
       <div class="card" style="padding:0;overflow:hidden">
         <table>
@@ -543,7 +545,7 @@ footer code {
           <td>$100.00</td>
           <td>$100.00</td>
           <td>$500.00</td>
-          <td class="neutral">+$0.00
+          <td class="pos">+$0.00
             (+0.00%)</td>
         </tr>
         </tbody>
@@ -552,13 +554,13 @@ footer code {
     </details>
     
     
-    <details class="section" open>
+    <details class="section">
       <summary><h2>Today's Activity (2026-05-13)</h2></summary>
       <div class="timeline"><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>options pre-check blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:54:56 UTC</span><span class="bot">AAPL-Moneypress</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">STRC-Heartbeat</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:57 UTC</span><span class="bot">DIA-Trend</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:56 UTC</span><span class="bot">IWM-BB</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:55 UTC</span><span class="bot">QQQ-RSI</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>guardrail blocked</span><span class="signal-pill signal-HOLD">skip</span></div><div class="timeline-item"><span class="ts">11:33:54 UTC</span><span class="bot">SPY-MA</span><span>—</span><span class="signal-pill signal-HOLD">tick</span></div></div>
     </details>
     
     
-    <details class="section" open>
+    <details class="section">
       <summary><h2>Historical Performance (last 30 days)</h2></summary>
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:12px">
         <div class="card metric">
@@ -631,7 +633,7 @@ footer code {
     </details>
     
     
-    <details class="section" open>
+    <details class="section">
       <summary><h2>Recent Orders</h2></summary>
       <div class="card" style="padding:0;overflow:hidden">
         <table>
@@ -714,6 +716,18 @@ footer code {
         </tbody>
         </table>
       </div>
+    </details>
+    
+    
+    <details class="section">
+      <summary><h2>Risk Limits</h2></summary>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
+      <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $738.19</span><span class="cap-value">$3,690.95 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $707.22</span><span class="cap-value">$3,536.10 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $282.57</span><span class="cap-value">$1,412.85 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $497.88</span><span class="cap-value">$2,489.40 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $100.00</span><span class="cap-value">$500.00 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $294.81</span><span class="cap-value">$1,474.05 / trade</span></div></div>
+      <p style="margin-top:8px;font-size:12px;color:var(--muted)">
+        To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
+        in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
+      </p>
     </details>
     
     <footer>
