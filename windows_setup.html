@@ -286,9 +286,9 @@ pip --version</code><button class="copy-btn">Copy</button></pre>
             <div class="step-detail">
               Download from <a href="https://git-scm.com/download/win" target="_blank">git-scm.com/download/win</a>.
               <div class="callout info">
-                <strong>Recommendation:</strong> accept all installer defaults except — pick "Git Bash Here" if asked. We'll use <strong>Git Bash</strong> for shell commands (its syntax matches the Mac terminal commands you're used to). PowerShell works too, but Git Bash is closer to muscle memory.
+                <strong>Recommendation:</strong> accept all installer defaults. Git Bash gets installed alongside, but for this guide we'll use <strong>PowerShell</strong> — it has built-in paste support (just Ctrl+V), is always on PATH, and Windows is built around it. You won't need to open Git Bash manually; we'll only invoke <code>bash.exe</code> for one specific script later.
               </div>
-              Verify in Git Bash:
+              Verify in PowerShell (Win+X → "Windows PowerShell"):
               <pre><code>git --version</code><button class="copy-btn">Copy</button></pre>
             </div>
           </div>
@@ -324,7 +324,7 @@ pip --version</code><button class="copy-btn">Copy</button></pre>
       <div class="phase-card">
         <h3>Recreate the project</h3>
         <p class="phase-intro">
-          Open <strong>Git Bash</strong> for this phase (right-click Desktop → "Git Bash Here").
+          Open <strong>PowerShell</strong> for this phase (Win+X → "Windows PowerShell" or just type "PowerShell" in Start menu). No admin needed yet.
         </p>
 
         <div class="step">
@@ -332,12 +332,12 @@ pip --version</code><button class="copy-btn">Copy</button></pre>
           <div class="step-body">
             <label for="p2-1" class="step-text"><strong>Create a projects directory and clone the repo</strong></label>
             <div class="step-detail">
-              <pre><code>mkdir -p ~/projects
-cd ~/projects
+              <pre><code>New-Item -ItemType Directory -Force -Path "$HOME\projects" | Out-Null
+cd "$HOME\projects"
 git clone https://github.com/eddiearmy-max/trading-bot.git
 cd trading-bot</code><button class="copy-btn">Copy</button></pre>
               <div class="callout info">
-                On Windows, <code>~</code> in Git Bash maps to <code>C:\Users\&lt;you&gt;</code>. So <code>~/projects/trading-bot</code> ends up at <code>C:\Users\eddiearmy-max\projects\trading-bot</code> (or whatever your Windows username is).
+                <code>$HOME</code> in PowerShell maps to <code>C:\Users\&lt;you&gt;</code>. The clone lands at <code>C:\Users\&lt;you&gt;\projects\trading-bot</code>.
               </div>
             </div>
           </div>
@@ -348,7 +348,7 @@ cd trading-bot</code><button class="copy-btn">Copy</button></pre>
           <div class="step-body">
             <label for="p2-2" class="step-text"><strong>Also clone the dashboard repo as a sibling</strong></label>
             <div class="step-detail">
-              <pre><code>cd ~/projects
+              <pre><code>cd "$HOME\projects"
 git clone https://github.com/eddiearmy-max/trading-bot-dashboard.git</code><button class="copy-btn">Copy</button></pre>
               The publish script expects <code>trading-bot-dashboard</code> as a sibling directory of <code>trading-bot</code>.
             </div>
@@ -360,12 +360,10 @@ git clone https://github.com/eddiearmy-max/trading-bot-dashboard.git</code><butt
           <div class="step-body">
             <label for="p2-3" class="step-text"><strong>Create the Python virtual environment</strong></label>
             <div class="step-detail">
-              <pre><code>cd ~/projects/trading-bot
+              <pre><code>cd "$HOME\projects\trading-bot"
 python -m venv .venv</code><button class="copy-btn">Copy</button></pre>
-              On Windows, the venv activation path is different from Mac. Use:
-              <pre><code>source .venv/Scripts/activate</code><button class="copy-btn">Copy</button></pre>
               <div class="callout info">
-                <strong>Note the path:</strong> <code>.venv/Scripts/activate</code> on Windows, not <code>.venv/bin/activate</code> like Mac.
+                <strong>We won't activate the venv.</strong> Activation requires changing PowerShell's execution policy on some systems. Instead, we'll always invoke Python via <code>.\.venv\Scripts\python.exe</code> — slightly more typing, totally reliable. Task Scheduler uses the same pattern, so this matches production.
               </div>
             </div>
           </div>
@@ -376,8 +374,8 @@ python -m venv .venv</code><button class="copy-btn">Copy</button></pre>
           <div class="step-body">
             <label for="p2-4" class="step-text"><strong>Install dependencies from <code>requirements.txt</code></strong></label>
             <div class="step-detail">
-              <pre><code>pip install --upgrade pip
-pip install -r requirements.txt</code><button class="copy-btn">Copy</button></pre>
+              <pre><code>.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\pip.exe install -r requirements.txt</code><button class="copy-btn">Copy</button></pre>
               Takes ~1 minute. Lots of packages.
             </div>
           </div>
@@ -398,9 +396,9 @@ pip install -r requirements.txt</code><button class="copy-btn">Copy</button></pr
           <div class="step-body">
             <label for="p3-1" class="step-text"><strong>Create <code>.env</code> in the project root</strong></label>
             <div class="step-detail">
-              In Git Bash:
-              <pre><code>cd ~/projects/trading-bot
-touch .env
+              In PowerShell (still in the project directory):
+              <pre><code>cd "$HOME\projects\trading-bot"
+New-Item -ItemType File -Path .env -Force | Out-Null
 code .env</code><button class="copy-btn">Copy</button></pre>
               VS Code opens with an empty file. Paste this template:
               <pre><code>ALPACA_KEY=your_paper_key_id_here
@@ -426,7 +424,7 @@ ANTHROPIC_API_KEY=your_anthropic_key_here</code><button class="copy-btn">Copy</b
           <div class="step-body">
             <label for="p3-3" class="step-text"><strong>Test the Alpaca connection</strong></label>
             <div class="step-detail">
-              <pre><code>python test_connection.py</code><button class="copy-btn">Copy</button></pre>
+              <pre><code>.\.venv\Scripts\python.exe test_connection.py</code><button class="copy-btn">Copy</button></pre>
               Expected: <code>Status: ACTIVE</code> and a positive buying power. If you get an auth error, double-check the keys in <code>.env</code>.
             </div>
           </div>
@@ -437,8 +435,8 @@ ANTHROPIC_API_KEY=your_anthropic_key_here</code><button class="copy-btn">Copy</b
           <div class="step-body">
             <label for="p3-4" class="step-text"><strong>Test the agent strategy</strong> (verifies Anthropic key)</label>
             <div class="step-detail">
-              Market needs to be open for this one, or use a dry-run:
-              <pre><code>python bot.py --strategy claude_agent --symbol AAPL</code><button class="copy-btn">Copy</button></pre>
+              Market needs to be open for this one, or it'll return HOLD with "market closed":
+              <pre><code>.\.venv\Scripts\python.exe bot.py --strategy claude_agent --symbol AAPL</code><button class="copy-btn">Copy</button></pre>
               Expected: a HOLD/BUY/SELL with reasoning. If you get auth errors mentioning Anthropic, check the <code>ANTHROPIC_API_KEY</code> in <code>.env</code>.
             </div>
           </div>
@@ -488,48 +486,42 @@ Write-Host "dir:  $projectDir"</code><button class="copy-btn">Copy</button></pre
             <label for="p4-3" class="step-text"><strong>Register all 10 scheduled tasks at once</strong></label>
             <div class="step-detail">
               Run this in the same PowerShell window where you set the variables above. It creates all the tasks needed (5 equity bots, options bot, heartbeat, allocator, dashboard publisher):
-              <pre><code># Helper to register a task with a daily trigger at a specific time
+              <pre><code>$weekdays = @("Monday","Tuesday","Wednesday","Thursday","Friday")
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -WakeToRun
+
+# Helper: register a task that runs python.exe with given arguments at a given time
 function Register-BotTask {
-  param($Name, $Time, $Args, $DaysOfWeek = @("Monday","Tuesday","Wednesday","Thursday","Friday"))
-  $action = New-ScheduledTaskAction -Execute $venv -Argument $Args -WorkingDirectory $projectDir
-  $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $DaysOfWeek -At $Time
-  $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
-  Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trigger -Settings $settings -Force
+  param($Name, $Time, $PyArgs, $Days = $weekdays)
+  $action = New-ScheduledTaskAction -Execute $venv -Argument $PyArgs -WorkingDirectory $projectDir
+  $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $Days -At $Time
+  Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trigger -Settings $settings -Force | Out-Null
 }
 
-# === The 10 bot jobs ===
-Register-BotTask -Name "TradingBot-Allocator"      -Time "8:20am" -Args "$bot --live --strategy ma_crossover --symbol SPY"
-# Allocator is a separate Python file:
-$allocatorAction = New-ScheduledTaskAction -Execute $venv -Argument "$projectDir\allocator.py 5" -WorkingDirectory $projectDir
-$allocatorTrigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At "8:20am"
-Register-ScheduledTask -TaskName "TradingBot-Allocator" -Action $allocatorAction -Trigger $allocatorTrigger -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+# Allocator runs daily before any bot fires
+Register-BotTask -Name "TradingBot-Allocator"  -Time "8:20am" -PyArgs "$projectDir\allocator.py 5"
 
-Register-BotTask -Name "TradingBot-SPY-MA"         -Time "9:32am" -Args "$bot --live --symbol SPY --strategy ma_crossover"
-Register-BotTask -Name "TradingBot-QQQ-RSI"        -Time "9:33am" -Args "$bot --live --symbol QQQ --strategy rsi_divergence"
-Register-BotTask -Name "TradingBot-IWM-BB"         -Time "9:34am" -Args "$bot --live --symbol IWM --strategy bb_squeeze"
-Register-BotTask -Name "TradingBot-DIA-Trend"      -Time "9:35am" -Args "$bot --live --symbol DIA --strategy trend_health"
-Register-BotTask -Name "TradingBot-STRC-Open"      -Time "9:32am" -Args "$bot --live --symbol STRC --strategy strc_control"
-Register-BotTask -Name "TradingBot-STRC-Close"     -Time "3:55pm" -Args "$bot --live --symbol STRC --strategy strc_control"
+# Equity bots (4 rule-based + heartbeat)
+Register-BotTask -Name "TradingBot-SPY-MA"     -Time "9:32am" -PyArgs "$bot --live --symbol SPY --strategy ma_crossover"
+Register-BotTask -Name "TradingBot-QQQ-RSI"    -Time "9:33am" -PyArgs "$bot --live --symbol QQQ --strategy rsi_divergence"
+Register-BotTask -Name "TradingBot-IWM-BB"     -Time "9:34am" -PyArgs "$bot --live --symbol IWM --strategy bb_squeeze"
+Register-BotTask -Name "TradingBot-DIA-Trend"  -Time "9:35am" -PyArgs "$bot --live --symbol DIA --strategy trend_health"
+Register-BotTask -Name "TradingBot-STRC-Open"  -Time "9:32am" -PyArgs "$bot --live --symbol STRC --strategy strc_control"
+Register-BotTask -Name "TradingBot-STRC-Close" -Time "3:55pm" -PyArgs "$bot --live --symbol STRC --strategy strc_control"
 
-# Hourly AAPL bots — Task Scheduler needs one trigger per hour
+# Hourly AAPL bots — one trigger per hour, 9:30 through 15:30 ET (so the bots match the Mac schedule)
 foreach ($h in 9..15) {
-  $time = "$($h):30am"; if ($h -ge 12) { $time = "$($h-12):30pm"; if ($h -eq 12) { $time = "12:30pm" } }
-  $taskName = "TradingBot-AAPL-Claude-$h"
-  $a = New-ScheduledTaskAction -Execute $venv -Argument "$bot --live --symbol AAPL --strategy claude_agent" -WorkingDirectory $projectDir
-  $t = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At $time
-  Register-ScheduledTask -TaskName $taskName -Action $a -Trigger $t -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
-
-  $taskName2 = "TradingBot-AAPL-Moneypress-$h"
-  $time2 = $time -replace ":30",":36"
-  $a2 = New-ScheduledTaskAction -Execute $venv -Argument "$bot --live --symbol AAPL --strategy moneypress" -WorkingDirectory $projectDir
-  $t2 = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At $time2
-  Register-ScheduledTask -TaskName $taskName2 -Action $a2 -Trigger $t2 -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+  $hour12 = if ($h -gt 12) { $h - 12 } elseif ($h -eq 0) { 12 } else { $h }
+  $ampm = if ($h -ge 12) { "pm" } else { "am" }
+  $timeClaude = "$($hour12):30$ampm"
+  $timeMoney  = "$($hour12):36$ampm"
+  Register-BotTask -Name "TradingBot-AAPL-Claude-$h"     -Time $timeClaude -PyArgs "$bot --live --symbol AAPL --strategy claude_agent"
+  Register-BotTask -Name "TradingBot-AAPL-Moneypress-$h" -Time $timeMoney  -PyArgs "$bot --live --symbol AAPL --strategy moneypress"
 }
 
-# Dashboard publisher — hourly, all days
-$publishAction = New-ScheduledTaskAction -Execute "bash.exe" -Argument "$projectDir\publish.sh" -WorkingDirectory $projectDir
+# Dashboard publisher — bash script, hourly, all days. Runs via Git's bash.exe.
+$publishAction = New-ScheduledTaskAction -Execute "bash.exe" -Argument "publish.sh" -WorkingDirectory $projectDir
 $publishTrigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1)
-Register-ScheduledTask -TaskName "TradingBot-Publish" -Action $publishAction -Trigger $publishTrigger -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+Register-ScheduledTask -TaskName "TradingBot-Publish" -Action $publishAction -Trigger $publishTrigger -Settings $settings -Force | Out-Null
 
 Get-ScheduledTask -TaskName "TradingBot-*" | Format-Table TaskName, State -AutoSize</code><button class="copy-btn">Copy</button></pre>
               <div class="callout warn">
@@ -585,16 +577,13 @@ powercfg /change monitor-timeout-ac 0</code><button class="copy-btn">Copy</butto
         <div class="step">
           <input type="checkbox" id="p5-2">
           <div class="step-body">
-            <label for="p5-2" class="step-text"><strong>Wake settings: allow scheduled tasks to wake the PC</strong></label>
+            <label for="p5-2" class="step-text"><strong>Verify "Wake the computer to run this task" is set</strong></label>
             <div class="step-detail">
-              For each scheduled task, the trigger should have "Wake the computer to run this task" enabled. The PowerShell script above doesn't set this by default. Easiest fix via GUI:
-              Open Task Scheduler → for each TradingBot task → Properties → Conditions tab → check <strong>"Wake the computer to run this task"</strong> → OK.
-              Or in PowerShell to do all at once:
+              The Phase 4 PowerShell script already sets this via <code>-WakeToRun</code>. Just confirm:
               <pre><code>Get-ScheduledTask -TaskName "TradingBot-*" | ForEach-Object {
-  $t = $_
-  $t.Settings.WakeToRun = $true
-  Set-ScheduledTask -InputObject $t
+  "$($_.TaskName): WakeToRun=$($_.Settings.WakeToRun)"
 }</code><button class="copy-btn">Copy</button></pre>
+              All tasks should show <code>WakeToRun=True</code>. If any show False, re-run the Phase 4 script (it'll overwrite with the right settings).
             </div>
           </div>
         </div>
@@ -625,14 +614,21 @@ powercfg /change monitor-timeout-ac 0</code><button class="copy-btn">Copy</butto
           <div class="step-body">
             <label for="p6-1" class="step-text"><strong>Run each bot manually (dry-run)</strong></label>
             <div class="step-detail">
-              In Git Bash with venv activated:
-              <pre><code>cd ~/projects/trading-bot
-source .venv/Scripts/activate
-for combo in "SPY ma_crossover" "QQQ rsi_divergence" "IWM bb_squeeze" "DIA trend_health" "AAPL claude_agent" "STRC strc_control"; do
-  read sym strat &lt;&lt;&lt; "$combo"
-  echo "=== $sym / $strat ==="
-  python bot.py --symbol "$sym" --strategy "$strat"
-done</code><button class="copy-btn">Copy</button></pre>
+              In PowerShell:
+              <pre><code>cd "$HOME\projects\trading-bot"
+$combos = @(
+  @("SPY","ma_crossover"),
+  @("QQQ","rsi_divergence"),
+  @("IWM","bb_squeeze"),
+  @("DIA","trend_health"),
+  @("AAPL","claude_agent"),
+  @("STRC","strc_control")
+)
+foreach ($c in $combos) {
+  $sym = $c[0]; $strat = $c[1]
+  Write-Host "=== $sym / $strat ==="
+  .\.venv\Scripts\python.exe bot.py --symbol $sym --strategy $strat
+}</code><button class="copy-btn">Copy</button></pre>
               Each should produce a HOLD (or similar) with no errors. If anything errors, it's almost always a missing dependency or a wrong path in <code>.env</code>.
             </div>
           </div>
@@ -643,7 +639,7 @@ done</code><button class="copy-btn">Copy</button></pre>
           <div class="step-body">
             <label for="p6-2" class="step-text"><strong>Run the allocator manually</strong></label>
             <div class="step-detail">
-              <pre><code>python allocator.py 5</code><button class="copy-btn">Copy</button></pre>
+              <pre><code>.\.venv\Scripts\python.exe allocator.py 5</code><button class="copy-btn">Copy</button></pre>
               Expected: a table showing per-bot caps. Writes <code>bot_caps.json</code>.
             </div>
           </div>
@@ -654,7 +650,11 @@ done</code><button class="copy-btn">Copy</button></pre>
           <div class="step-body">
             <label for="p6-3" class="step-text"><strong>Run the dashboard publisher manually</strong></label>
             <div class="step-detail">
-              <pre><code>./publish.sh</code><button class="copy-btn">Copy</button></pre>
+              <code>publish.sh</code> is a bash script — Windows runs it through Git's <code>bash.exe</code> (installed in Phase 1). From PowerShell:
+              <pre><code>bash.exe publish.sh</code><button class="copy-btn">Copy</button></pre>
+              <div class="callout info">
+                If <code>bash.exe</code> isn't found, give the full path: <code>& "C:\Program Files\Git\bin\bash.exe" publish.sh</code>
+              </div>
               Expected: "Published. Live at: ..." — and the public URL refreshes within a minute. Hard-refresh <a href="https://eddiearmy-max.github.io/trading-bot-dashboard/" target="_blank">the dashboard</a> in your browser; the timestamp at the top should be current.
             </div>
           </div>
