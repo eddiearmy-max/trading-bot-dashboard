@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Migrate Trading Bot to Windows — Checklist</title>
+  <style>
+    :root {
+      --bg-start: #fafafe;
+      --bg-end: #f1f1f6;
+      --card: #ffffff;
+      --border: #e4e4e7;
+      --text: #18181b;
+      --text-2: #3f3f46;
+      --muted: #71717a;
+      --pos: #16a34a;
+      --pos-bg: #dcfce7;
+      --neg: #dc2626;
+      --accent: #4f46e5;
+      --accent-2: #7c3aed;
+      --accent-bg: #eef2ff;
+      --code-bg: #1e1b4b;
+      --code-text: #e0e7ff;
+      --shadow-sm: 0 1px 2px rgba(24,24,27,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(24,24,27,0.05);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 20px 80px;
+      min-height: 100vh;
+    }
+    .container { max-width: 880px; margin: 0 auto; }
+    header { margin-bottom: 32px; }
+    h1 {
+      font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    header .meta { color: var(--muted); font-size: 14px; }
+    .progress-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 22px;
+      box-shadow: var(--shadow-sm); margin-bottom: 28px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .progress-bar-wrap {
+      flex: 1; height: 8px; background: #e4e4e7;
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-text { font-weight: 700; font-size: 14px; }
+    section { margin-bottom: 28px; }
+    section > h2 {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    section > h2::before {
+      content: ""; width: 3px; height: 14px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 2px;
+    }
+    .phase-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .phase-card h3 {
+      font-size: 17px; font-weight: 700; margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .phase-card .phase-intro {
+      color: var(--muted); font-size: 14px; margin-bottom: 16px;
+    }
+    .step {
+      display: flex; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step input[type="checkbox"] {
+      appearance: none;
+      width: 20px; height: 20px;
+      border: 2px solid var(--border); border-radius: 4px;
+      cursor: pointer; flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: all 0.15s;
+    }
+    .step input[type="checkbox"]:hover { border-color: var(--accent); }
+    .step input[type="checkbox"]:checked {
+      background: var(--accent); border-color: var(--accent);
+    }
+    .step input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute; top: -3px; left: 2px;
+      color: white; font-size: 16px; font-weight: 700;
+    }
+    .step .step-body { flex: 1; min-width: 0; }
+    .step.completed .step-text { color: var(--muted); text-decoration: line-through; }
+    .step .step-text { font-size: 14px; line-height: 1.5; }
+    .step .step-detail {
+      font-size: 13px; color: var(--muted);
+      margin-top: 6px; line-height: 1.5;
+    }
+    a { color: var(--accent); font-weight: 500; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    pre {
+      background: var(--code-bg); color: var(--code-text);
+      padding: 12px 16px; border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 12.5px; line-height: 1.5;
+      overflow-x: auto;
+      margin-top: 8px;
+      position: relative;
+    }
+    pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+    code {
+      background: var(--accent-bg); color: var(--accent);
+      padding: 2px 6px; border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.9em;
+    }
+    pre .copy-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(255,255,255,0.1); color: var(--code-text);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 3px 10px; border-radius: 5px;
+      font-size: 11px; cursor: pointer;
+      transition: all 0.15s;
+    }
+    pre .copy-btn:hover { background: rgba(255,255,255,0.2); }
+    pre .copy-btn.copied { background: var(--pos); border-color: var(--pos); }
+    .callout {
+      margin-top: 12px; padding: 12px 14px;
+      border-radius: 8px; font-size: 13px; line-height: 1.5;
+    }
+    .callout.warn {
+      background: #fff7ed; border-left: 3px solid #f59e0b;
+      color: #78350f;
+    }
+    .callout.info {
+      background: var(--accent-bg); border-left: 3px solid var(--accent);
+      color: var(--text-2);
+    }
+    .callout.danger {
+      background: #fef2f2; border-left: 3px solid var(--neg);
+      color: #7f1d1d;
+    }
+    .callout strong { font-weight: 700; }
+    .reset-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); padding: 5px 12px;
+      border-radius: 6px; font-size: 12px;
+      cursor: pointer;
+    }
+    .reset-btn:hover { background: #fafafa; color: var(--neg); border-color: var(--neg); }
+    footer {
+      margin-top: 40px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Migrate Trading Bot to Windows</h1>
+      <p class="meta">Estimated time: ~1.5–2 hours of focused work. Progress saves automatically (per-browser).</p>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <span class="progress-text" id="progressText">0 / 0 complete</span>
+      <button class="reset-btn" onclick="if(confirm('Reset all progress?')){localStorage.clear();location.reload();}">Reset</button>
+    </div>
+
+    <section>
+      <h2>Phase 0 — Pre-flight on the Mac</h2>
+      <div class="phase-card">
+        <h3>Get the Mac side ready before touching Windows</h3>
+        <p class="phase-intro">
+          The risk to avoid: <strong>two systems trading simultaneously</strong>. If both Mac and Windows fire bots, you'll get duplicate orders. Always-on Windows replaces the Mac entirely.
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p0-1">
+          <div class="step-body">
+            <label for="p0-1" class="step-text"><strong>Commit and push all pending Mac changes</strong></label>
+            <div class="step-detail">
+              In your trading-bot directory:
+              <pre><code>cd ~/projects/trading-bot
+git status
+git push</code><button class="copy-btn">Copy</button></pre>
+              If <code>git status</code> shows uncommitted changes, commit them before moving on. Windows clones from GitHub, so anything not on GitHub is lost.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p0-2">
+          <div class="step-body">
+            <label for="p0-2" class="step-text"><strong>Make sure <code>requirements.txt</code> is committed</strong></label>
+            <div class="step-detail">
+              This file lists every Python package the bot needs. Already generated for you.
+              <pre><code>cat requirements.txt
+git add requirements.txt
+git commit -m "Add requirements.txt for cross-platform install"
+git push</code><button class="copy-btn">Copy</button></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p0-3">
+          <div class="step-body">
+            <label for="p0-3" class="step-text"><strong>Note your API keys (you'll re-enter on Windows)</strong></label>
+            <div class="step-detail">
+              The <code>.env</code> file is gitignored, so it won't transfer via Git. Open it now and confirm the 3 values are also in your password manager:
+              <pre><code>cat ~/projects/trading-bot/.env</code><button class="copy-btn">Copy</button></pre>
+              You need: <code>ALPACA_KEY</code>, <code>ALPACA_SECRET</code>, <code>ANTHROPIC_API_KEY</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p0-4">
+          <div class="step-body">
+            <label for="p0-4" class="step-text"><strong>Stop all Mac launchd jobs</strong> (do this LAST before starting Windows)</label>
+            <div class="step-detail">
+              <div class="callout danger">
+                <strong>⚠ Do not do this step until you're ready to immediately move to Windows.</strong> Once these are stopped, no bot is firing. Then you start setting up Windows.
+              </div>
+              <pre><code>for label in spy-ma qqq-rsi iwm-bb dia-trend aapl-claude aapl-moneypress strc-control allocator caffeinate publish; do
+  launchctl bootout gui/$(id -u)/com.eddiearmy.tradingbot-$label 2>/dev/null
+done
+launchctl list | grep tradingbot</code><button class="copy-btn">Copy</button></pre>
+              Last line should print nothing — confirming all 10 jobs are stopped.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 1 — Install prerequisites on Windows</h2>
+      <div class="phase-card">
+        <h3>The three things Windows needs</h3>
+        <p class="phase-intro">
+          Each install is a one-time setup. Reboot after Python finishes installing — it makes life easier.
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p1-1">
+          <div class="step-body">
+            <label for="p1-1" class="step-text"><strong>Install Python 3.12</strong></label>
+            <div class="step-detail">
+              Download from <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a> — pick the latest 3.12.x Windows installer (64-bit).
+              <div class="callout warn">
+                <strong>⚠ During install, check the box "Add Python to PATH"</strong> on the first installer screen. Without it, you'll need to type the full path every time.
+              </div>
+              After install, verify in PowerShell:
+              <pre><code>python --version
+pip --version</code><button class="copy-btn">Copy</button></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p1-2">
+          <div class="step-body">
+            <label for="p1-2" class="step-text"><strong>Install Git for Windows</strong></label>
+            <div class="step-detail">
+              Download from <a href="https://git-scm.com/download/win" target="_blank">git-scm.com/download/win</a>.
+              <div class="callout info">
+                <strong>Recommendation:</strong> accept all installer defaults except — pick "Git Bash Here" if asked. We'll use <strong>Git Bash</strong> for shell commands (its syntax matches the Mac terminal commands you're used to). PowerShell works too, but Git Bash is closer to muscle memory.
+              </div>
+              Verify in Git Bash:
+              <pre><code>git --version</code><button class="copy-btn">Copy</button></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p1-3">
+          <div class="step-body">
+            <label for="p1-3" class="step-text"><strong>Install VS Code</strong> (optional but recommended)</label>
+            <div class="step-detail">
+              Download from <a href="https://code.visualstudio.com/" target="_blank">code.visualstudio.com</a>.
+              You'll use it to edit <code>.env</code> and review logs without needing to learn vim/nano on Windows.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p1-4">
+          <div class="step-body">
+            <label for="p1-4" class="step-text"><strong>Verify GitHub credentials</strong></label>
+            <div class="step-detail">
+              Your existing Personal Access Token (PAT) works on Windows too. When Git asks for credentials during the first push/pull, paste your PAT as the "password."
+              If you've lost it, generate a new one at <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> with <code>repo</code> scope.
+              <div class="callout info">Windows Credential Manager will cache the PAT after first use — no recurring prompts.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 2 — Clone the repo and create the venv</h2>
+      <div class="phase-card">
+        <h3>Recreate the project</h3>
+        <p class="phase-intro">
+          Open <strong>Git Bash</strong> for this phase (right-click Desktop → "Git Bash Here").
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p2-1">
+          <div class="step-body">
+            <label for="p2-1" class="step-text"><strong>Create a projects directory and clone the repo</strong></label>
+            <div class="step-detail">
+              <pre><code>mkdir -p ~/projects
+cd ~/projects
+git clone https://github.com/eddiearmy-max/trading-bot.git
+cd trading-bot</code><button class="copy-btn">Copy</button></pre>
+              <div class="callout info">
+                On Windows, <code>~</code> in Git Bash maps to <code>C:\Users\&lt;you&gt;</code>. So <code>~/projects/trading-bot</code> ends up at <code>C:\Users\eddiearmy-max\projects\trading-bot</code> (or whatever your Windows username is).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p2-2">
+          <div class="step-body">
+            <label for="p2-2" class="step-text"><strong>Also clone the dashboard repo as a sibling</strong></label>
+            <div class="step-detail">
+              <pre><code>cd ~/projects
+git clone https://github.com/eddiearmy-max/trading-bot-dashboard.git</code><button class="copy-btn">Copy</button></pre>
+              The publish script expects <code>trading-bot-dashboard</code> as a sibling directory of <code>trading-bot</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p2-3">
+          <div class="step-body">
+            <label for="p2-3" class="step-text"><strong>Create the Python virtual environment</strong></label>
+            <div class="step-detail">
+              <pre><code>cd ~/projects/trading-bot
+python -m venv .venv</code><button class="copy-btn">Copy</button></pre>
+              On Windows, the venv activation path is different from Mac. Use:
+              <pre><code>source .venv/Scripts/activate</code><button class="copy-btn">Copy</button></pre>
+              <div class="callout info">
+                <strong>Note the path:</strong> <code>.venv/Scripts/activate</code> on Windows, not <code>.venv/bin/activate</code> like Mac.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p2-4">
+          <div class="step-body">
+            <label for="p2-4" class="step-text"><strong>Install dependencies from <code>requirements.txt</code></strong></label>
+            <div class="step-detail">
+              <pre><code>pip install --upgrade pip
+pip install -r requirements.txt</code><button class="copy-btn">Copy</button></pre>
+              Takes ~1 minute. Lots of packages.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 3 — Create the <code>.env</code> file with your secrets</h2>
+      <div class="phase-card">
+        <h3>The single file Git doesn't transfer</h3>
+        <p class="phase-intro">
+          <code>.env</code> is gitignored on purpose — it has your API keys. You'll recreate it manually.
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p3-1">
+          <div class="step-body">
+            <label for="p3-1" class="step-text"><strong>Create <code>.env</code> in the project root</strong></label>
+            <div class="step-detail">
+              In Git Bash:
+              <pre><code>cd ~/projects/trading-bot
+touch .env
+code .env</code><button class="copy-btn">Copy</button></pre>
+              VS Code opens with an empty file. Paste this template:
+              <pre><code>ALPACA_KEY=your_paper_key_id_here
+ALPACA_SECRET=your_paper_secret_here
+ANTHROPIC_API_KEY=your_anthropic_key_here</code><button class="copy-btn">Copy</button></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p3-2">
+          <div class="step-body">
+            <label for="p3-2" class="step-text"><strong>Replace the placeholders with your real keys</strong></label>
+            <div class="step-detail">
+              Use the values from your password manager. <strong>No quotes, no spaces around the =</strong>.
+              Save (<code>Ctrl+S</code>).
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p3-3">
+          <div class="step-body">
+            <label for="p3-3" class="step-text"><strong>Test the Alpaca connection</strong></label>
+            <div class="step-detail">
+              <pre><code>python test_connection.py</code><button class="copy-btn">Copy</button></pre>
+              Expected: <code>Status: ACTIVE</code> and a positive buying power. If you get an auth error, double-check the keys in <code>.env</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p3-4">
+          <div class="step-body">
+            <label for="p3-4" class="step-text"><strong>Test the agent strategy</strong> (verifies Anthropic key)</label>
+            <div class="step-detail">
+              Market needs to be open for this one, or use a dry-run:
+              <pre><code>python bot.py --strategy claude_agent --symbol AAPL</code><button class="copy-btn">Copy</button></pre>
+              Expected: a HOLD/BUY/SELL with reasoning. If you get auth errors mentioning Anthropic, check the <code>ANTHROPIC_API_KEY</code> in <code>.env</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 4 — Schedule everything via Task Scheduler</h2>
+      <div class="phase-card">
+        <h3>Windows's launchd equivalent</h3>
+        <p class="phase-intro">
+          Task Scheduler runs your bots on a calendar. There are 10 jobs to recreate. We'll use a single PowerShell script to register them all at once — much faster than clicking through the GUI 10 times.
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p4-1">
+          <div class="step-body">
+            <label for="p4-1" class="step-text"><strong>Open PowerShell as Administrator</strong></label>
+            <div class="step-detail">
+              Win+X → "Windows PowerShell (Admin)" or "Terminal (Admin)". Admin rights are needed to register scheduled tasks.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p4-2">
+          <div class="step-body">
+            <label for="p4-2" class="step-text"><strong>Find your full project paths</strong></label>
+            <div class="step-detail">
+              The scheduler needs absolute paths. In PowerShell:
+              <pre><code>cd $HOME\projects\trading-bot
+$venv = "$PWD\.venv\Scripts\python.exe"
+$bot = "$PWD\bot.py"
+$projectDir = "$PWD"
+Write-Host "venv: $venv"
+Write-Host "bot:  $bot"
+Write-Host "dir:  $projectDir"</code><button class="copy-btn">Copy</button></pre>
+              Make sure all three paths print correctly — no missing files.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p4-3">
+          <div class="step-body">
+            <label for="p4-3" class="step-text"><strong>Register all 10 scheduled tasks at once</strong></label>
+            <div class="step-detail">
+              Run this in the same PowerShell window where you set the variables above. It creates all the tasks needed (5 equity bots, options bot, heartbeat, allocator, dashboard publisher):
+              <pre><code># Helper to register a task with a daily trigger at a specific time
+function Register-BotTask {
+  param($Name, $Time, $Args, $DaysOfWeek = @("Monday","Tuesday","Wednesday","Thursday","Friday"))
+  $action = New-ScheduledTaskAction -Execute $venv -Argument $Args -WorkingDirectory $projectDir
+  $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $DaysOfWeek -At $Time
+  $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
+  Register-ScheduledTask -TaskName $Name -Action $action -Trigger $trigger -Settings $settings -Force
+}
+
+# === The 10 bot jobs ===
+Register-BotTask -Name "TradingBot-Allocator"      -Time "8:20am" -Args "$bot --live --strategy ma_crossover --symbol SPY"
+# Allocator is a separate Python file:
+$allocatorAction = New-ScheduledTaskAction -Execute $venv -Argument "$projectDir\allocator.py 5" -WorkingDirectory $projectDir
+$allocatorTrigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At "8:20am"
+Register-ScheduledTask -TaskName "TradingBot-Allocator" -Action $allocatorAction -Trigger $allocatorTrigger -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+
+Register-BotTask -Name "TradingBot-SPY-MA"         -Time "9:32am" -Args "$bot --live --symbol SPY --strategy ma_crossover"
+Register-BotTask -Name "TradingBot-QQQ-RSI"        -Time "9:33am" -Args "$bot --live --symbol QQQ --strategy rsi_divergence"
+Register-BotTask -Name "TradingBot-IWM-BB"         -Time "9:34am" -Args "$bot --live --symbol IWM --strategy bb_squeeze"
+Register-BotTask -Name "TradingBot-DIA-Trend"      -Time "9:35am" -Args "$bot --live --symbol DIA --strategy trend_health"
+Register-BotTask -Name "TradingBot-STRC-Open"      -Time "9:32am" -Args "$bot --live --symbol STRC --strategy strc_control"
+Register-BotTask -Name "TradingBot-STRC-Close"     -Time "3:55pm" -Args "$bot --live --symbol STRC --strategy strc_control"
+
+# Hourly AAPL bots — Task Scheduler needs one trigger per hour
+foreach ($h in 9..15) {
+  $time = "$($h):30am"; if ($h -ge 12) { $time = "$($h-12):30pm"; if ($h -eq 12) { $time = "12:30pm" } }
+  $taskName = "TradingBot-AAPL-Claude-$h"
+  $a = New-ScheduledTaskAction -Execute $venv -Argument "$bot --live --symbol AAPL --strategy claude_agent" -WorkingDirectory $projectDir
+  $t = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At $time
+  Register-ScheduledTask -TaskName $taskName -Action $a -Trigger $t -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+
+  $taskName2 = "TradingBot-AAPL-Moneypress-$h"
+  $time2 = $time -replace ":30",":36"
+  $a2 = New-ScheduledTaskAction -Execute $venv -Argument "$bot --live --symbol AAPL --strategy moneypress" -WorkingDirectory $projectDir
+  $t2 = New-ScheduledTaskTrigger -Weekly -DaysOfWeek @("Monday","Tuesday","Wednesday","Thursday","Friday") -At $time2
+  Register-ScheduledTask -TaskName $taskName2 -Action $a2 -Trigger $t2 -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+}
+
+# Dashboard publisher — hourly, all days
+$publishAction = New-ScheduledTaskAction -Execute "bash.exe" -Argument "$projectDir\publish.sh" -WorkingDirectory $projectDir
+$publishTrigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1)
+Register-ScheduledTask -TaskName "TradingBot-Publish" -Action $publishAction -Trigger $publishTrigger -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable) -Force
+
+Get-ScheduledTask -TaskName "TradingBot-*" | Format-Table TaskName, State -AutoSize</code><button class="copy-btn">Copy</button></pre>
+              <div class="callout warn">
+                <strong>Heads up:</strong> This is the most complex script in the migration. If it errors, paste the error message to ChatGPT/Claude — the task scheduler PowerShell API can be finicky and the fix is usually one parameter.
+              </div>
+              The final line lists all created tasks. You should see ~16 tasks (10 hourly AAPL pairs + the other bots).
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p4-4">
+          <div class="step-body">
+            <label for="p4-4" class="step-text"><strong>Verify in the Task Scheduler GUI</strong></label>
+            <div class="step-detail">
+              Win+R → type <code>taskschd.msc</code> → Enter.
+              In the left pane, click <em>Task Scheduler Library</em>. You should see all <code>TradingBot-*</code> tasks listed with status "Ready."
+              <div class="callout info">
+                <strong>Tip:</strong> right-click any task → "Run" to test it immediately, without waiting for the scheduled time.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 5 — Power management (always-on)</h2>
+      <div class="phase-card">
+        <h3>Stop the PC from sleeping</h3>
+        <p class="phase-intro">
+          The whole point of moving to Windows is "always on." A scheduled task won't fire if the PC is asleep.
+        </p>
+
+        <div class="step">
+          <input type="checkbox" id="p5-1">
+          <div class="step-body">
+            <label for="p5-1" class="step-text"><strong>Disable sleep when plugged in</strong></label>
+            <div class="step-detail">
+              In an <strong>Administrator</strong> PowerShell window:
+              <pre><code>powercfg /change standby-timeout-ac 0
+powercfg /change hibernate-timeout-ac 0
+powercfg /change monitor-timeout-ac 0</code><button class="copy-btn">Copy</button></pre>
+              That sets sleep, hibernate, and monitor-off to "never" on AC power.
+              <div class="callout info">
+                The <code>monitor-timeout-ac 0</code> line keeps the screen on too. If you want the screen to turn off but the system to stay awake, set monitor-timeout to e.g. 20 minutes:
+                <code>powercfg /change monitor-timeout-ac 20</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p5-2">
+          <div class="step-body">
+            <label for="p5-2" class="step-text"><strong>Wake settings: allow scheduled tasks to wake the PC</strong></label>
+            <div class="step-detail">
+              For each scheduled task, the trigger should have "Wake the computer to run this task" enabled. The PowerShell script above doesn't set this by default. Easiest fix via GUI:
+              Open Task Scheduler → for each TradingBot task → Properties → Conditions tab → check <strong>"Wake the computer to run this task"</strong> → OK.
+              Or in PowerShell to do all at once:
+              <pre><code>Get-ScheduledTask -TaskName "TradingBot-*" | ForEach-Object {
+  $t = $_
+  $t.Settings.WakeToRun = $true
+  Set-ScheduledTask -InputObject $t
+}</code><button class="copy-btn">Copy</button></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p5-3">
+          <div class="step-body">
+            <label for="p5-3" class="step-text"><strong>(Optional) Auto-restart on power outage</strong></label>
+            <div class="step-detail">
+              If your PC loses power, you probably want it to come back up on its own. This is a BIOS/UEFI setting:
+              reboot → enter BIOS (usually F2/F10/Del at startup) → find "Power" or "AC Power Loss" or "Restore on AC/Power Loss" → set to "Power On" or "Last State."
+              <div class="callout info">
+                Optional, but if you're not at the PC physically, this keeps it always-on across power blips.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 6 — Smoke-test the Windows install</h2>
+      <div class="phase-card">
+        <h3>Verify everything works before trusting the schedule</h3>
+
+        <div class="step">
+          <input type="checkbox" id="p6-1">
+          <div class="step-body">
+            <label for="p6-1" class="step-text"><strong>Run each bot manually (dry-run)</strong></label>
+            <div class="step-detail">
+              In Git Bash with venv activated:
+              <pre><code>cd ~/projects/trading-bot
+source .venv/Scripts/activate
+for combo in "SPY ma_crossover" "QQQ rsi_divergence" "IWM bb_squeeze" "DIA trend_health" "AAPL claude_agent" "STRC strc_control"; do
+  read sym strat &lt;&lt;&lt; "$combo"
+  echo "=== $sym / $strat ==="
+  python bot.py --symbol "$sym" --strategy "$strat"
+done</code><button class="copy-btn">Copy</button></pre>
+              Each should produce a HOLD (or similar) with no errors. If anything errors, it's almost always a missing dependency or a wrong path in <code>.env</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p6-2">
+          <div class="step-body">
+            <label for="p6-2" class="step-text"><strong>Run the allocator manually</strong></label>
+            <div class="step-detail">
+              <pre><code>python allocator.py 5</code><button class="copy-btn">Copy</button></pre>
+              Expected: a table showing per-bot caps. Writes <code>bot_caps.json</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p6-3">
+          <div class="step-body">
+            <label for="p6-3" class="step-text"><strong>Run the dashboard publisher manually</strong></label>
+            <div class="step-detail">
+              <pre><code>./publish.sh</code><button class="copy-btn">Copy</button></pre>
+              Expected: "Published. Live at: ..." — and the public URL refreshes within a minute. Hard-refresh <a href="https://eddiearmy-max.github.io/trading-bot-dashboard/" target="_blank">the dashboard</a> in your browser; the timestamp at the top should be current.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p6-4">
+          <div class="step-body">
+            <label for="p6-4" class="step-text"><strong>Trigger a Task Scheduler task manually</strong></label>
+            <div class="step-detail">
+              Open Task Scheduler (<code>taskschd.msc</code>) → right-click any TradingBot task → <strong>Run</strong>. Wait ~10 seconds, then re-check the dashboard or the local <code>logs/</code> directory for the new entry.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phase 7 — Cleanup and decommission</h2>
+      <div class="phase-card">
+        <h3>Make Windows the sole truth</h3>
+
+        <div class="step">
+          <input type="checkbox" id="p7-1">
+          <div class="step-body">
+            <label for="p7-1" class="step-text"><strong>Confirm Mac launchd is stopped</strong></label>
+            <div class="step-detail">
+              On the Mac, re-run:
+              <pre><code>launchctl list | grep tradingbot</code><button class="copy-btn">Copy</button></pre>
+              Should be empty. If anything still shows, run the bootout loop from Phase 0 again.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p7-2">
+          <div class="step-body">
+            <label for="p7-2" class="step-text"><strong>(Optional) Archive the Mac project directory</strong></label>
+            <div class="step-detail">
+              The Mac copy is no longer the source of truth. You can leave it as-is for backup, or zip + move it:
+              <pre><code>cd ~/projects
+mv trading-bot trading-bot-mac-backup-$(date +%Y%m%d)</code><button class="copy-btn">Copy</button></pre>
+              Pure preference. Both copies sharing the same GitHub remote isn't a problem unless you accidentally run them concurrently.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <input type="checkbox" id="p7-3">
+          <div class="step-body">
+            <label for="p7-3" class="step-text"><strong>Watch the dashboard tomorrow morning</strong></label>
+            <div class="step-detail">
+              Around 8:25 CDT tomorrow, the first natural fires happen on Windows. <a href="https://eddiearmy-max.github.io/trading-bot-dashboard/" target="_blank">Check the dashboard</a> shortly after — you should see fresh ticks dated today, sourced from Windows.
+              <div class="callout info">
+                If anything fails to fire, check Windows Task Scheduler → History tab on each task. It shows the last run result and any error code.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Trading-bot Windows migration · Self-contained checklist · Progress saved per-browser</p>
+    </footer>
+  </div>
+
+  <script>
+    // Track checkboxes, persist to localStorage, update progress bar
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const total = checkboxes.length;
+    const bar = document.getElementById('progressBar');
+    const text = document.getElementById('progressText');
+
+    function refresh() {
+      const done = Array.from(checkboxes).filter(c => c.checked).length;
+      bar.style.width = (done / total * 100) + '%';
+      text.textContent = `${done} / ${total} complete`;
+      checkboxes.forEach(c => {
+        c.closest('.step').classList.toggle('completed', c.checked);
+      });
+    }
+
+    checkboxes.forEach(c => {
+      const stored = localStorage.getItem('winsetup:' + c.id);
+      if (stored === '1') c.checked = true;
+      c.addEventListener('change', () => {
+        localStorage.setItem('winsetup:' + c.id, c.checked ? '1' : '0');
+        refresh();
+      });
+    });
+    refresh();
+
+    // Copy-to-clipboard for code blocks
+    document.querySelectorAll('pre .copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const code = btn.parentElement.querySelector('code') || btn.parentElement;
+        const text = code.textContent.replace(/Copy$/, '').trim();
+        await navigator.clipboard.writeText(text);
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>
