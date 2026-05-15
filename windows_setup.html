@@ -519,7 +519,10 @@ foreach ($h in 9..15) {
 }
 
 # Dashboard publisher — bash script, hourly, all days. Runs via Git's bash.exe.
-$publishAction = New-ScheduledTaskAction -Execute "bash.exe" -Argument "publish.sh" -WorkingDirectory $projectDir
+# Git installs bash to "C:\Program Files\Git\bin\bash.exe" — hardcoded for reliability
+# regardless of whether the bin dir is on PATH.
+$bashPath = "C:\Program Files\Git\bin\bash.exe"
+$publishAction = New-ScheduledTaskAction -Execute $bashPath -Argument "publish.sh" -WorkingDirectory $projectDir
 $publishTrigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1)
 Register-ScheduledTask -TaskName "TradingBot-Publish" -Action $publishAction -Trigger $publishTrigger -Settings $settings -Force | Out-Null
 
@@ -650,10 +653,10 @@ foreach ($c in $combos) {
           <div class="step-body">
             <label for="p6-3" class="step-text"><strong>Run the dashboard publisher manually</strong></label>
             <div class="step-detail">
-              <code>publish.sh</code> is a bash script — Windows runs it through Git's <code>bash.exe</code> (installed in Phase 1). From PowerShell:
-              <pre><code>bash.exe publish.sh</code><button class="copy-btn">Copy</button></pre>
+              <code>publish.sh</code> is a bash script — Windows runs it through Git's <code>bash.exe</code> (installed in Phase 1). Git's bash isn't on PATH by default, so use the full path with PowerShell's <code>&amp;</code> (call) operator:
+              <pre><code>& "C:\Program Files\Git\bin\bash.exe" publish.sh</code><button class="copy-btn">Copy</button></pre>
               <div class="callout info">
-                If <code>bash.exe</code> isn't found, give the full path: <code>& "C:\Program Files\Git\bin\bash.exe" publish.sh</code>
+                The leading <code>&amp;</code> tells PowerShell "execute this." Without it, the quoted path is treated as a literal string and PowerShell errors on the rest of the line.
               </div>
               Expected: "Published. Live at: ..." — and the public URL refreshes within a minute. Hard-refresh <a href="https://eddiearmy-max.github.io/trading-bot-dashboard/" target="_blank">the dashboard</a> in your browser; the timestamp at the top should be current.
             </div>
