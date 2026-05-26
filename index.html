@@ -314,7 +314,7 @@ footer code {
       <h1>Trading Bot Dashboard<span class="live-dot" aria-label="live" title="System is live"></span></h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-05-26 08:11:51</span>
+        <span>Generated 2026-05-26 09:11:53</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
@@ -325,13 +325,13 @@ footer code {
       <div class="grid">
         <div class="card metric hero">
           <span class="label">Equity</span>
-          <span class="value">$100,077.15</span>
+          <span class="value">$100,145.46</span>
           <span class="sub">Cash: $97,956.69</span>
         </div>
         <div class="card metric">
           <span class="label">Day P&amp;L</span>
-          <span class="value neg">−$14.84</span>
-          <span class="sub neg">-0.01%</span>
+          <span class="value pos">+$53.47</span>
+          <span class="sub pos">+0.05%</span>
         </div>
         <div class="card metric">
           <span class="label">Buying Power</span>
@@ -441,7 +441,7 @@ footer code {
           <div class="meta-row"><span>Schedule</span><span>Mon–Fri 8:32 + 14:55 CDT</span></div>
           <div class="meta-row"><span>Last run</span><span>2026-05-25 20:55 UTC</span></div>
           <div class="meta-row"><span>Total ticks logged</span><span>16</span></div>
-          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="pos">+$3.06</span></span></div>
+          <div class="meta-row"><span>Rolling P&amp;L</span><span><span class="pos">+$0.83</span></span></div>
           <div class="meta-row"><span>Position cap</span><span>$2,500.00 · fixed</span></div>
           <div class="reason">Strategy says <strong>SELL</strong> because heartbeat bot sold at the close — same routine every trading day, regardless of price or news.</div>
         </div>
@@ -518,14 +518,14 @@ footer code {
           <td><strong>fixed</strong></td>
           <td>STRC-Heartbeat</td>
           <td>STRC</td>
-          <td class="pos">+$3.06</td>
+          <td class="pos">+$0.83</td>
           <td>$2,500.00</td>
         </tr>
         </tbody>
         </table>
       </div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
-        Updated 2026-05-25 13:20 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
+        Updated 2026-05-26 13:20 UTC · Strategy bots are re-ranked daily ~8:20 CDT by rolling P&amp;L · STRC heartbeat is fixed
       </p>
     </details>
     
@@ -543,30 +543,30 @@ footer code {
           <td><strong>AAPL260529P00305000</strong></td>
           <td>-1</td>
           <td>$1.51</td>
-          <td>$1.78</td>
-          <td>$-178.00</td>
-          <td class="neg">−$27.00
-            (-17.88%)</td>
+          <td>$0.80</td>
+          <td>$-80.00</td>
+          <td class="pos">+$71.00
+            (+47.02%)</td>
         </tr>
         
         <tr>
           <td><strong>AAPL260717P00280000</strong></td>
           <td>1</td>
           <td>$5.55</td>
-          <td>$2.12</td>
-          <td>$212.00</td>
-          <td class="neg">−$343.00
-            (-61.80%)</td>
+          <td>$1.79</td>
+          <td>$179.00</td>
+          <td class="neg">−$376.00
+            (-67.75%)</td>
         </tr>
         
         <tr>
           <td><strong>STRC</strong></td>
           <td>21</td>
           <td>$99.44</td>
-          <td>$99.36</td>
-          <td>$2,086.45</td>
-          <td class="neg">−$1.79
-            (-0.09%)</td>
+          <td>$99.47</td>
+          <td>$2,088.76</td>
+          <td class="pos">+$0.52
+            (+0.03%)</td>
         </tr>
         </tbody>
         </table>
@@ -600,7 +600,7 @@ footer code {
       <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        const data = {"labels": ["04/23", "04/24", "04/25", "04/28", "04/29", "04/30", "05/01", "05/02", "05/05", "05/06", "05/07", "05/08", "05/09", "05/12", "05/13", "05/14", "05/15", "05/16", "05/19", "05/20", "05/21", "05/22", "05/23"], "equity": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100000.0, 100000.0, 100000.39, 100000.39, 100000.39, 100000.33, 100007.46, 100029.03, 100065.98, 100119.24, 100141.4, 100154.8, 100168.41, 100091.99]};
+        const data = {"labels": ["04/28", "04/29", "04/30", "05/01", "05/02", "05/05", "05/06", "05/07", "05/08", "05/09", "05/12", "05/13", "05/14", "05/15", "05/16", "05/19", "05/20", "05/21", "05/22", "05/23"], "equity": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100000.0, 100000.0, 100000.39, 100000.39, 100000.39, 100000.33, 100007.46, 100029.03, 100065.98, 100119.24, 100141.4, 100154.8, 100168.41, 100091.99]};
         const ctx = document.getElementById("equityChart").getContext("2d");
         const gradient = ctx.createLinearGradient(0, 0, 0, 280);
         gradient.addColorStop(0, "rgba(79,70,229,0.25)");
@@ -761,7 +761,7 @@ footer code {
       <summary><h2>Risk Limits</h2></summary>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
       <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $745.67</span><span class="cap-value">$3,728.35 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $717.49</span><span class="cap-value">$3,587.45 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $285.12</span><span class="cap-value">$1,425.60 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $506.13</span><span class="cap-value">$2,530.65 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $308.81</span><span class="cap-value">$1,544.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $99.36</span><span class="cap-value">$496.78 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $308.81</span><span class="cap-value">$1,544.05 / trade</span></div></div>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $745.67</span><span class="cap-value">$3,728.35 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $717.49</span><span class="cap-value">$3,587.45 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $285.12</span><span class="cap-value">$1,425.60 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $506.13</span><span class="cap-value">$2,530.65 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $308.81</span><span class="cap-value">$1,544.05 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $99.47</span><span class="cap-value">$497.33 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $308.81</span><span class="cap-value">$1,544.05 / trade</span></div></div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
         in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
