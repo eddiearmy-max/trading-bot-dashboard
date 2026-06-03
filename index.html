@@ -314,7 +314,7 @@ footer code {
       <h1>Trading Bot Dashboard<span class="live-dot" aria-label="live" title="System is live"></span></h1>
       <div class="meta">
         <span class="badge">Paper Trading</span>
-        <span>Generated 2026-06-03 03:11:50</span>
+        <span>Generated 2026-06-03 04:11:57</span>
         <span class="sep">·</span>
         <span>Brokerage: <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Paper ↗</a></span>
       </div>
@@ -325,17 +325,17 @@ footer code {
       <div class="grid">
         <div class="card metric hero">
           <span class="label">Equity</span>
-          <span class="value">$100,231.84</span>
-          <span class="sub">Cash: $97,938.06</span>
+          <span class="value">$100,230.74</span>
+          <span class="sub">Cash: $97,937.99</span>
         </div>
         <div class="card metric">
           <span class="label">Day P&amp;L</span>
-          <span class="value pos">+$202.99</span>
-          <span class="sub pos">+0.20%</span>
+          <span class="value neg">−$30.00</span>
+          <span class="sub neg">-0.03%</span>
         </div>
         <div class="card metric">
           <span class="label">Buying Power</span>
-          <span class="value">$270,200.12</span>
+          <span class="value">$271,755.72</span>
           <span class="sub">2× margin on paper</span>
         </div>
         <div class="card metric">
@@ -563,10 +563,10 @@ footer code {
           <td><strong>STRC</strong></td>
           <td>25</td>
           <td>$99.43</td>
-          <td>$96.95</td>
-          <td>$2,423.78</td>
-          <td class="neg">−$61.90
-            (-2.49%)</td>
+          <td>$96.91</td>
+          <td>$2,422.75</td>
+          <td class="neg">−$62.92
+            (-2.53%)</td>
         </tr>
         </tbody>
         </table>
@@ -589,18 +589,18 @@ footer code {
         </div>
         <div class="card metric">
           <span class="label">Current equity</span>
-          <span class="value">$100,028.85</span>
+          <span class="value">$100,260.74</span>
         </div>
         <div class="card metric">
           <span class="label">Total P&amp;L</span>
-          <span class="value pos">+$28.85</span>
-          <span class="sub pos">+0.03%</span>
+          <span class="value pos">+$260.74</span>
+          <span class="sub pos">+0.26%</span>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        const data = {"labels": ["05/05", "05/06", "05/07", "05/08", "05/09", "05/12", "05/13", "05/14", "05/15", "05/16", "05/19", "05/20", "05/21", "05/22", "05/23", "05/27", "05/28", "05/29", "05/30", "06/02"], "equity": [0.0, 100000.0, 100000.0, 100000.39, 100000.39, 100000.39, 100000.33, 100007.46, 100029.03, 100065.98, 100119.24, 100141.4, 100154.8, 100168.41, 100091.99, 100091.49, 100182.27, 100218.46, 100221.85, 100028.85]};
+        const data = {"labels": ["05/05", "05/06", "05/07", "05/08", "05/09", "05/12", "05/13", "05/14", "05/15", "05/16", "05/19", "05/20", "05/21", "05/22", "05/23", "05/27", "05/28", "05/29", "05/30", "06/02", "06/03"], "equity": [0.0, 100000.0, 100000.0, 100000.39, 100000.39, 100000.39, 100000.33, 100007.46, 100029.03, 100065.98, 100119.24, 100141.4, 100154.8, 100168.41, 100091.99, 100091.49, 100182.27, 100218.46, 100221.85, 100028.85, 100260.74]};
         const ctx = document.getElementById("equityChart").getContext("2d");
         const gradient = ctx.createLinearGradient(0, 0, 0, 280);
         gradient.addColorStop(0, "rgba(79,70,229,0.25)");
@@ -761,7 +761,7 @@ footer code {
       <summary><h2>Risk Limits</h2></summary>
       <div class="caps-list"><div class="cap-row"><span class="cap-name">Max order size</span><span class="cap-value">5 shares per order</span></div><div class="cap-row"><span class="cap-name">Max position value (per symbol)</span><span class="cap-value">varies by bot — see Bot Allocations</span></div><div class="cap-row"><span class="cap-name">Max daily account loss (system-wide)</span><span class="cap-value">2.00%</span></div></div>
       <h3 class="subhead">Per-trade target $ (1 share × current price)</h3>
-      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $758.15</span><span class="cap-value">$3,790.75 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $743.30</span><span class="cap-value">$3,716.50 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $290.44</span><span class="cap-value">$1,452.20 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $510.97</span><span class="cap-value">$2,554.85 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $315.19</span><span class="cap-value">$1,575.97 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $96.95</span><span class="cap-value">$484.75 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $315.19</span><span class="cap-value">$1,575.97 / trade</span></div></div>
+      <div class="caps-list"><div class="cap-row"><span class="cap-name">SPY-MA: 1 share of SPY @ $758.15</span><span class="cap-value">$3,790.75 / trade</span></div><div class="cap-row"><span class="cap-name">QQQ-RSI: 1 share of QQQ @ $743.30</span><span class="cap-value">$3,716.50 / trade</span></div><div class="cap-row"><span class="cap-name">IWM-BB: 1 share of IWM @ $290.44</span><span class="cap-value">$1,452.20 / trade</span></div><div class="cap-row"><span class="cap-name">DIA-Trend: 1 share of DIA @ $510.97</span><span class="cap-value">$2,554.85 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Claude: 1 share of AAPL @ $315.19</span><span class="cap-value">$1,575.97 / trade</span></div><div class="cap-row"><span class="cap-name">STRC-Heartbeat: 1 share of STRC @ $96.91</span><span class="cap-value">$484.55 / trade</span></div><div class="cap-row"><span class="cap-name">AAPL-Moneypress: 1 share of AAPL @ $315.19</span><span class="cap-value">$1,575.97 / trade</span></div></div>
       <p style="margin-top:8px;font-size:12px;color:var(--muted)">
         To raise these later: edit <code>MAX_ORDER_QTY</code> and <code>MAX_POSITION_VALUE</code>
         in <code>guardrails.py</code>, commit, and the dashboard reflects the new values on next regenerate.
